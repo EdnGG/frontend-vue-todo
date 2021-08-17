@@ -1,15 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Localbase from 'localbase'
 import axios from 'axios';
-import createPersistedState from 'vuex-persistedstate' 
+import createPersistedState from 'vuex-persistedstate'
 
 import router from '../router'
-
-
-let db = new Localbase('db')
-
-db.config.debug = false
 
 Vue.use(Vuex)
 
@@ -18,7 +12,7 @@ export default new Vuex.Store({
     token: '',
     userDB: {},
     search: null,
-    tasks: [ ],
+    tasks: [],
     allTasks: [],
     sorting: false,
     appTitle: process.env.VUE_APP_TITLE,
@@ -27,84 +21,82 @@ export default new Vuex.Store({
       text: '',
     },
   },
-  
+
   mutations: {
-    actualizarImagenUsuario(state, payload) {
+    actualizarImagenUsuario (state, payload) {
       console.log('Payload de actualizarImagenUsuario: ', payload)
       state.userDB = payload
     },
-    obtenerUsuario(state, payload) {
+    obtenerUsuario (state, payload) {
       state.token = payload.token
       state.userDB = payload.userDB
     },
-    getTasks(state, payload) {
-      state.token = payload.token
-      state.tasks = payload.tasks
-    },
-    setSearch(state, payload) {
+    setSearch (state, payload) {
       state.search = payload
       console.log(payload)
-    },   
-    hideSnackbar(state){
+    },
+    hideSnackbar (state) {
       state.snackbar.show = false
     },
-    updateTaskDueDate(state, payload) {
+    updateTaskDueDate (state, payload) {
       console.log(payload)
-      let task = state.tasks.filter( task => task.id === payload.id )[0]
+      let task = state.tasks.filter(task => task.id === payload.id)[0]
       task.dueDate = payload.dueDate
     },
-    updateTaskTitle(state, payload) {
+    updateTaskTitle (state, payload) {
       console.log(payload)
-      let task = state.tasks.filter( task => task.id === payload.id )[0]
+      let task = state.tasks.filter(task => task.id === payload.id)[0]
       task.title = payload.title
     },
-    deleteTask(state, id){
-      state.tasks =  state.tasks.filter( task => task.id !== id )
+    deleteTask (state, id) {
+      state.tasks = state.tasks.filter(task => task.id !== id)
     },
-    
-    doneTask(state, id){
+    doneTask (state, id) {
       // agregamos [0] para que pueda agarrar el primer elemnto del arreglo de objetos
       /**
        * Primero return an array of objects, not a single object
        */
-      let task = state.tasks.filter( task => task.id === id )[0]
+      let task = state.tasks.filter(task => task.id === id)[0]
       task.done = !task.done
     },
-    setTasks(state, tasks) {
-      state.tasks = tasks 
+    setTasks (state, tasks) {
+      state.tasks = tasks
     },
-    showSnackbar(state, payload) {
+    showSnackbar (state, payload) {
       let timeout = 0
-      if(state.snackbar.show) {
+      if (state.snackbar.show) {
         state.snackbar.show = false
         timeout = 300
       }
-      setTimeout( () => {
+      setTimeout(() => {
         state.snackbar.show = true,
-        state.snackbar.text = payload.text
+          state.snackbar.text = payload
       }, timeout)
     },
-    toogleSorting(state) {
+    toggleSorting (state) {
       state.sorting = !state.sorting
     },
-    addTask(state, payload) {
+    updateList (state, payload) {
+      state.allTasks = payload
+    },
+    addTask (state, payload) {
       console.log(payload)
-      state.tasks.push( payload.data )
+      state.tasks.push(payload.data)
       console.log('array tasks: ', state.tasks)
       // state.token = payload.token
     },
-    getUserTasks(state, payload){
+    SET_USERTASK (state, payload) {
       console.log('payload from mutations', payload)
-      state.allTasks = payload 
+      state.allTasks = payload
     }
   },
   actions: {
-    addTask({ state, commit }, newTaskTitle) {
+    addTask ({ state, commit }, newTaskTitle) {
       let newTask = {
         id: this.state.userDB._id,
-        title : newTaskTitle,
+        title: newTaskTitle,
         done: false,
-        dueDate:  null
+        dueDate: null
       }
 
       let config = {
@@ -118,13 +110,13 @@ export default new Vuex.Store({
         .then((res) => {
           console.log('res.data: ', res.data)
           commit('addTask', res.data)
-          
+
         })
         .catch((e) => {
           console.log('Error from frontend', e)
         });
     },
-    getUserTasks( {state, commit} ){
+    getUserTasks ({ state, commit }) {
       let config = {
         headers: {
           // El token lo sacamos de 'store'
@@ -135,76 +127,72 @@ export default new Vuex.Store({
         .get("/todos", config)
         .then((res) => {
           console.log("Get all notes:", res.data);
-          commit('getUserTasks', res.data)
+          commit('SET_USERTASK', res.data)
         })
         .catch((e) => {
           console.log(e.response);
         });
     },
-    updateImageUsuario({ commit }, payload) {
+    deleteTask ({ commit, dispatch }, idTask) {
+      axios
+        .delete(`/nota/${idTask}`)
+        .then((res) => {
+          commit('showSnackbar', 'Task deleted correctly')
+          dispatch('getUserTasks')
+        })
+        .catch((e) => {
+          commit('showSnackbar', 'ERROR: ' + e.response)
+          console.log(e.response);
+        });
+    },
+    updateTask ({ commit, dispatch }, task) {
+      axios
+        .put(`/nota/${task.id}`, { title: task.title })
+        .then((res) => {
+          commit('showSnackbar', 'Task updated correctly')
+          dispatch('getUserTasks')
+        })
+        .catch((e) => {
+          commit('showSnackbar', 'ERROR: ' + e.response)
+          console.log(e.response);
+        });
+    },
+    updateTaskDueDate ({ commit, dispatch }, task) {
+      axios
+        .put(`/nota/duedate/${task.id}`, { dueDate: task.dueDate })
+        .then((res) => {
+          commit('showSnackbar', 'Set due date correctly')
+          dispatch('getUserTasks')
+        })
+        .catch((e) => {
+          commit('showSnackbar', 'ERROR: ' + e.response)
+          console.log(e.response);
+        });
+
+    },
+    updateImageUsuario ({ commit }, payload) {
       commit('actualizarImagenUsuario', payload)
     },
     // Esta accion no necesita el payload porque va a remover el token y el commit va a ser nulo
-    closeSesion({ commit }) {
+    closeSesion ({ commit }) {
       localStorage.removeItem('token')
-      router.push({name: 'Login'})
+      router.push({ name: 'Login' })
       commit('obtenerUsuario', '')
     },
-    guardarUsuario({ commit }, payload) {
+    guardarUsuario ({ commit }, payload) {
       localStorage.setItem('token', payload.token)
       commit('obtenerUsuario', payload)
     },
-    
-    // getTasks({commit}) {
-    //   db.collection('tasks').get().then((task)=> {
-    //     commit('setTasks', task)
-    //   })
-    // },
-    setTasks({ commit }, tasks){
-      db.collection('tasks').set(tasks)
-      commit('setTasks', tasks)
-    },
-    updateTaskDueDate({commit}, payload){
-      db.collection('tasks').doc({id: payload.id}).update({
-        dueDate: payload.dueDate
-      }).then(()=> {
-        commit('updateTaskDueDate',  payload)
-        commit('showSnackbar', {text: 'Due Date updated!'})
-      })
-     
-    },
-    updateTaskTitle({commit}, payload){
-      db.collection('tasks').doc({id: payload.id}).update({
-        title: payload.title
-      }).then(()=> {
-        commit('updateTaskTitle' , payload)
-        commit('showSnackbar', {text: 'Task updated!'})
-      })
-    },
-    
-    doneTask({ state, commit }, id){
-      let task = state.tasks.filter( (task) => task.id === id)[0]
-      db.collection('tasks').doc({ id: id}).update({
-        done: !task.done
-      }).then(()=> {
-        commit('doneTask', id)
-      })
-    },
-    deleteTask({ commit }, id){
-      db.collection('tasks').doc({ id: id }).delete().then(()=> {
-        commit('deleteTask', id)
-        commit('showSnackbar', { text: 'Task Deleted'} )
-      })
-    }
-  }, 
+
+  },
   getters: {
     // Comprueba si en State existe el token, devuelve un boolean
     isActive: state => !!state.token,
-    tasksFiltered(state) {
-      if(!state.search){
-        return state.tasks
+    tasksFiltered (state) {
+      if (!state.search) {
+        return state.allTasks
       }
-      return state.tasks.filter( task => 
+      return state.allTasks.filter(task =>
         task.title.toLowerCase().includes(state.search.toLowerCase())
       )
     }

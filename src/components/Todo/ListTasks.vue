@@ -1,17 +1,36 @@
 <template>
-  <v-list class="pt-0" flat>
-    <draggable v-model="allTasks" handle=".handle">
-      <task v-for="task in allTasks" :key="task._id" :task="task" />
+  <v-list
+    class="pt-0"
+    flat
+  >
+    <draggable
+      v-model="myList"
+      handle=".handle"
+    >
+      <task
+        v-for="task in tasksFiltered"
+        :key="task._id"
+        :task="task"
+      />
     </draggable>
   </v-list>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import draggable from "vuedraggable";
 export default {
   computed: {
     ...mapState(["allTasks"]),
+    ...mapGetters(['tasksFiltered']),
+    myList: {
+      get () {
+        return this.tasksFiltered
+      },
+      set (value) {
+        this.$store.commit('updateList', value)
+      }
+    }
     // logTasks() {
     //   let array = this.allTasks.map(
     //     (task) => {
@@ -38,7 +57,7 @@ export default {
     //   );
     // },
   },
-  mounted() {
+  mounted () {
     this.getUserTasks();
     console.log("created hook");
   },
