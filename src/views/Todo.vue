@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     <list-tasks 
-      v-if="$store.state.tasks.length"
+      
+      v-if="getAllNotes"
     />
 
     <no-tasks v-else />
@@ -38,39 +39,15 @@ import { mapState } from "vuex";
       }
     },
     computed:{
-      ...mapState(["token"]),
+      ...mapState(["token", "allTasks"]),
+
+      getAllNotes: {
+        get: function() {
+          return this.allTasks
+        }
+      }
     },    
     methods: {
-      agregarNota() {
-      let config = {
-        headers: {
-          // El token lo sacamos de 'store'
-          token: this.token,
-        },
-      };
-      console.log(this.nota);
-      this.axios
-        // 1 ruta, 2 body, 3 headers(config)
-        .post("/new-todo", this.newTaskTitle, config)
-        .then((res) => {
-          this.newTaskTitle.push(res.data);
-          this.newTaskTitle = "";
-          // this.nota.description = "";
-          // this.mensaje.color = "success";
-          // this.mensaje.texto = "New note was added";
-          // this.showAlert();
-        })
-        .catch((e) => {
-          if (e.response.data.error.errors.nombre.message) {
-            this.mensaje.texto = e.response.data.error.errors.nombre.message;
-          } else {
-            this.mensaje.texto = "Something was wrong adding note";
-          }
-          this.mensaje.color = "danger";
-          this.showAlert();
-          console.log(e.response);
-        });
-    },
     addTask() {
         this.$store.commit('addTask', this.newTaskTitle)
         this.newTaskTitle = ''

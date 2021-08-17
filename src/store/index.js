@@ -95,7 +95,7 @@ export default new Vuex.Store({
     },
     getUserTasks(state, payload){
       console.log('payload from mutations', payload)
-      state.allTasks = payload //.push(payload)
+      state.allTasks = payload 
     }
   },
   actions: {
@@ -106,9 +106,7 @@ export default new Vuex.Store({
         done: false,
         dueDate:  null
       }
-      console.log('userDB: ', this.state.userDB)
-      console.log('object task: ', newTask)
-      console.log('token from vue', state.token) 
+
       let config = {
         headers: {
           token: state.token,
@@ -125,12 +123,8 @@ export default new Vuex.Store({
         .catch((e) => {
           console.log('Error from frontend', e)
         });
-      // db.collection('tasks').add(newTask).then( ()=> {
-      //   commit('addTask', newTask)
-      //   commit('showSnackbar', { text: 'Task Added'} )
-      // })
     },
-    getUserTasks( {state, commit}, payload){
+    getUserTasks( {state, commit} ){
       let config = {
         headers: {
           // El token lo sacamos de 'store'
@@ -142,20 +136,12 @@ export default new Vuex.Store({
         .then((res) => {
           console.log("Get all notes:", res.data);
           commit('getUserTasks', res.data)
-          // this.allNotes = res.data;
-          // allNotes.filter((note) =>
-          //   note.nombre.toLowerCase().includes(this.searchText.toLowerCase())
-          // );
-          // console.log('Note filtered: ', notaEncontrada)
-          // return notaEncontrada
         })
         .catch((e) => {
           console.log(e.response);
         });
     },
     updateImageUsuario({ commit }, payload) {
-      // localStorage.setItem('token', payload)
-      console.log('Payload de updateImageUsuarios: ', payload)
       commit('actualizarImagenUsuario', payload)
     },
     // Esta accion no necesita el payload porque va a remover el token y el commit va a ser nulo
@@ -169,11 +155,11 @@ export default new Vuex.Store({
       commit('obtenerUsuario', payload)
     },
     
-    getTasks({commit}) {
-      db.collection('tasks').get().then((task)=> {
-        commit('setTasks', task)
-      })
-    },
+    // getTasks({commit}) {
+    //   db.collection('tasks').get().then((task)=> {
+    //     commit('setTasks', task)
+    //   })
+    // },
     setTasks({ commit }, tasks){
       db.collection('tasks').set(tasks)
       commit('setTasks', tasks)
