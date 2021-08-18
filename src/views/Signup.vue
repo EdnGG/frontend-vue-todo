@@ -140,7 +140,8 @@ export default {
         this.axios
           .post('/signup', this.user)
           .then((res) => {
-          this.$router.push({ name: "Login" });
+            this.$store.commit('showSnackbar', `Welcome ${this.user.name} Please type email and password to login`)
+            this.$router.push({ name: "Login" });
         })
         .catch((e) => {
         console.log('error', e)

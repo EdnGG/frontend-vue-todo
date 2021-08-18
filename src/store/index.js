@@ -79,7 +79,7 @@ export default new Vuex.Store({
     updateList (state, payload) {
       state.allTasks = payload
     },
-    addTask (state, payload) {
+    addTask (state, payload) { 
       console.log(payload)
       state.tasks.push(payload.data)
       console.log('array tasks: ', state.tasks)
