@@ -58,8 +58,8 @@ export default {
     // },
   },
   mounted () {
-    this.getUserTasks();
-    console.log("created hook");
+    // this.getUserTasks();
+    // console.log("created hook");
   },
   methods: {
     ...mapActions(["getUserTasks"]),
