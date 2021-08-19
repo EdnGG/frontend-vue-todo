@@ -144,22 +144,22 @@ export default {
       this.showCommitsHistory  ? this.showCommitsHistory = false : this.showCommitsHistory = true
     },
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
-    uploadImage() {
-      let formData = new FormData();
-      formData.append("image", this.image);
-      // console.log("form-data: ", formData);
-      this.axios
-        .put(`/upload/${this.userDB._id}`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((res) => {
-          this.updateImageUsuario(res.data.userDB);
-        })
-        .catch((e) => {
-          // console.log("Error: ", e.response.data.err.message);
-          this.message = e.response.data.err.message;
-        });
-    },
+    // uploadImage() {
+    //   let formData = new FormData();
+    //   formData.append("image", this.image);
+    //   // console.log("form-data: ", formData);
+    //   this.axios
+    //     .put(`/upload/${this.userDB._id}`, formData, {
+    //       headers: { "Content-Type": "multipart/form-data" },
+    //     })
+    //     .then((res) => {
+    //       this.updateImageUsuario(res.data.userDB);
+    //     })
+    //     .catch((e) => {
+    //       // console.log("Error: ", e.response.data.err.message);
+    //       this.message = e.response.data.err.message;
+    //     });
+    // },
     
     upload() {
       console.log(this.image)
@@ -172,6 +172,7 @@ export default {
         })
         .then((res) => {
           this.updateImageUsuario(res.data.userDB);
+          this.$store.commit('showSnackbar', `Hey ${res.data.userDB.name} image was updated successfully`)
         })
         .catch((e) => {
           // console.log("Error: ", e.response.data.err.message);

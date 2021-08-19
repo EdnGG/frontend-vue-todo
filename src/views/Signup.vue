@@ -136,7 +136,7 @@ export default {
     },
     signUp() {
       if(this.validate){
-        console.log('pase por aqui')
+        console.log('peticion post/signup')
         this.axios
           .post('/signup', this.user)
           .then((res) => {

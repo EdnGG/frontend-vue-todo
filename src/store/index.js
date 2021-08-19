@@ -13,6 +13,7 @@ export default new Vuex.Store({
     userDB: {},
     search: null,
     tasks: [],
+    task: true,
     allTasks: [],
     sorting: false,
     appTitle: process.env.VUE_APP_TITLE,
@@ -51,14 +52,14 @@ export default new Vuex.Store({
     deleteTask (state, id) {
       state.tasks = state.tasks.filter(task => task.id !== id)
     },
-    doneTask (state, id) {
+    // doneTask (state, id) {
       // agregamos [0] para que pueda agarrar el primer elemnto del arreglo de objetos
       /**
        * Primero return an array of objects, not a single object
        */
-      let task = state.tasks.filter(task => task.id === id)[0]
-      task.done = !task.done
-    },
+      // let task = state.tasks.filter(task => task._id === _id)[0]
+      // task.done = !task.done
+    // },
     setTasks (state, tasks) {
       state.tasks = tasks
     },
@@ -91,6 +92,22 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    doneTask({commit}, task){
+      let newTask = task.filter(tarea => tarea._id === _id)[0]
+      // let newTask = state.allTasks.filter(tarea => tarea._id === _id)[0]
+      newTask.done = !newTask.done
+      axios
+        .put(`/nota/done/${newTask._id}`, { done: task.done })
+        .then((res) => {
+          commit('showSnackbar', ' correctly')
+          dispatch('getUserTasks')
+        })
+        .catch((e) => {
+          commit('showSnackbar', 'ERROR: ' + e.response)
+          console.error('Error' + e.response);
+        });
+
+    },
     addTask ({ state, commit }, newTaskTitle) {
       let newTask = {
         id: this.state.userDB._id,
@@ -172,6 +189,7 @@ export default new Vuex.Store({
     },
     updateImageUsuario ({ commit }, payload) {
       commit('actualizarImagenUsuario', payload)
+      // commit('showSnackbar', `Hey ${this.userDB.name} successfully image updated`)
     },
     // Esta accion no necesita el payload porque va a remover el token y el commit va a ser nulo
     closeSesion ({ commit }) {

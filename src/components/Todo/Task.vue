@@ -1,8 +1,8 @@
 <template>
   <div>
-
+<!-- @click="$store.commit('doneTask', task)" -->
+      <!-- @click="$store.state.task ? $store.state.task = false : $store.state.task = true" -->
     <v-list-item
-      @click="$store.dispatch('doneTask', task.id)"
       :class="{'blue lighten-5' : task.done }"
       :ripple="false"
       class="white"
@@ -18,6 +18,7 @@
         <v-list-item-content>
           <!-- condicionando classes -->
           <v-list-item-title :class="{'text-decoration-line-through' : task.done}">
+            <!-- <v-list-item-title :class="{'text-decoration-line-through' : $store.state.task}"> -->
             {{task.title}}
           </v-list-item-title>
         </v-list-item-content>
