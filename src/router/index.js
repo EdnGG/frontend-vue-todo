@@ -33,6 +33,16 @@ const routes = [
     meta: { requireAuth: true }
   },
   {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ForgotPassword.vue'),
+  },
+  {
+    path: '/reset-password/:token',
+    name: 'ResetPassword',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ResetPassword.vue'),
+  },
+  {
     path: '/about',
     name: 'About',
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
