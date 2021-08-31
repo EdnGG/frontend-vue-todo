@@ -6,7 +6,6 @@
           <h1>Reset Password</h1>
         </v-container>
         <v-form ref="form" v-model="valid" lazy-validation>
-
           <!-- <v-text-field
             v-model="user.email"
             :rules="emailRules"
@@ -14,7 +13,6 @@
             required
           >
           </v-text-field> -->
-
 
           <v-text-field
             v-model="user.pass"
@@ -87,7 +85,7 @@ export default {
         name: "",
         email: "",
         pass: "",
-        resetLink: ""
+        resetLink: "",
       },
     };
   },
@@ -98,26 +96,40 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-
-    // countDownChanged(dismissCountDown) {
-    //   this.dismissCountDown = dismissCountDown;
-    // },
-    // showAlert() {
-    //   this.dismissCountDown = this.dismissSecs;
-    // },
+    // pienso que con un watcher puedo leer y almacenar el token que viene 
+    // en la url
+    watch: {
+      //  con esta funcion leemos la query (la url) desde vue.js
+      "$route.query.token": {
+        immediate: true,
+        handler(token) {
+          console.log('Token from url')
+          // pagina = parseInt(pagina) || 1;
+          // this.paginacion(pagina);
+          // this.paginaActual = pagina;
+        },
+      },
+    },
+    /**
+     *  vm se refiere a this
+     */
+    beforeRouteEnter(to, from, next) {
+      let token = to.params.token || "";
+      next((vm) => (vm.token = token));
+    },
     resetpassword() {
       if (this.validate) {
         console.log("peticion PUT/reset-password");
         console.log("email: " + this.user.email);
         this.axios
-          .put("/reset-password", { email : this.user.pass})
+          .put("/reset-password", { email: this.user.pass })
           .then((res) => {
             // this.$store.commit(
             //   "showSnackbar",
             //   `Please check your email: ${this.user.email} and follow the instructions`
             // );
             // this.$router.push({ name: "Login" });
-            console.log('res.data: ', res.data)
+            console.log("res.data: ", res.data);
           })
           .catch((e) => {
             console.log("error", e);
