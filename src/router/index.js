@@ -38,7 +38,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/ForgotPassword.vue'),
   },
   {
-    path: '/reset-password/:token',
+    path: '/reset-password/:resetLink',
     name: 'ResetPassword',
     component: () => import(/* webpackChunkName: "about" */ '../views/ResetPassword.vue'),
   },
