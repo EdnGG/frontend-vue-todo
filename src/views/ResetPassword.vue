@@ -122,12 +122,13 @@ export default {
         console.log("peticion PUT/reset-password");
         console.log("password: " + this.user.pass);
         this.axios
-          .put("/reset-password", { 
+          .put(`/reset-password/${this.$route.params.resetLink}`, { 
             pass: this.user.pass,
             resetLink: this.$route.params.resetLink 
           })
           .then((res) => {
             const data = res.data
+            // De aqui no sigue el codigo
             this.$store.commit(
               "showSnackbar",
               `Please check your email: ${this.user.email} and follow the instructions`
