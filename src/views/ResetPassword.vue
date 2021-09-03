@@ -37,7 +37,7 @@
               :disabled="!valid"
               color="success"
               class="mr-4"
-              @click="resetpassword(user.pass)"
+              @click="resetpassword()"
             >
               New Password
             </v-btn>
@@ -96,27 +96,6 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-    // pienso que con un watcher puedo leer y almacenar el token que viene 
-    // en la url
-    // watch: {
-    //   //  con esta funcion leemos la query (la url) desde vue.js
-    //   "$route.query.token": {
-    //     immediate: true,
-    //     handler(token) {
-    //       console.log('Token from url')
-    //       // pagina = parseInt(pagina) || 1;
-    //       // this.paginacion(pagina);
-    //       // this.paginaActual = pagina;
-    //     },
-    //   },
-    // },
-    // /**
-    //  *  vm se refiere a this
-    //  */
-    // beforeRouteEnter(to, from, next) {
-    //   let token = to.params.token || "";
-    //   next((vm) => (vm.token = token));
-    // },
     resetpassword() {
       if (this.validate) {
         console.log("peticion PUT/reset-password");
@@ -128,7 +107,6 @@ export default {
           })
           .then((res) => {
             const data = res.data
-            // De aqui no sigue el codigo
             this.$store.commit(
               "showSnackbar",
               `Please check your email: ${this.user.email} and follow the instructions`
@@ -138,9 +116,6 @@ export default {
           })
           .catch((e) => {
             console.log("error", e);
-            // this.message.text = e.response.data.message
-            // this.message.color = 'danger'
-            // this.showAlert()
           });
       }
     },
