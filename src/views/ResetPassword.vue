@@ -109,9 +109,9 @@ export default {
             const data = res.data
             this.$store.commit(
               "showSnackbar",
-              `Please check your email: ${this.user.email} and follow the instructions`
+              `Password changed correctly`
             );
-            // this.$router.push({ name: "Login" });
+            this.$router.push({ name: "Login" });
             console.log("res.data: ", res.data);
           })
           .catch((e) => {

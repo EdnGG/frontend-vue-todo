@@ -38,7 +38,7 @@
               :disabled="!valid"
               color="success"
               class="mr-4"
-              @click="resetpassword"
+              @click="forgotPassword"
             >
               Send Email
             </v-btn>
@@ -103,17 +103,17 @@ export default {
     // showAlert() {
     //   this.dismissCountDown = this.dismissSecs;
     // },
-    resetpassword() {
+    forgotPassword() {
       if (this.validate) {
-        console.log("peticion PUT/reset-password");
+        console.log("peticion PUT/forgot-password");
         console.log("email: " + this.user.email);
         this.axios
           .put("/forgot-password", { email : this.user.email})
           .then((res) => {
-            // this.$store.commit(
-            //   "showSnackbar",
-            //   `Please check your email: ${this.user.email} and follow the instructions`
-            // );
+            this.$store.commit(
+              "showSnackbar",
+              `Please check your email: ${this.user.email} and follow the instructions`
+            );
             // this.$router.push({ name: "Login" });
             console.log('res.data: ', res.data)
           })
