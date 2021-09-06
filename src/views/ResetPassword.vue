@@ -98,12 +98,14 @@ export default {
     },
     resetpassword() {
       if (this.validate) {
-        console.log("peticion PUT/reset-password");
-        console.log("password: " + this.user.pass);
+        // Cleaning token for URL
+        const resetLink = this.$route.params.resetLink.replace(/["_"]+/g, '.')
+        console.log('ResetLink from frontend: ', resetLink)
         this.axios
           .put(`/reset-password/${this.$route.params.resetLink}`, { 
             pass: this.user.pass,
-            resetLink: this.$route.params.resetLink 
+            // sending token already cleaned to the backend
+            resetLink: resetLink
           })
           .then((res) => {
             const data = res.data
