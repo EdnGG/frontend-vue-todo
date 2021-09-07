@@ -12,7 +12,7 @@ export default new Vuex.Store({
     token: '',
     userDB: {},
     search: null,
-    tasks: [],
+    // tasks: [],
     task: true,
     allTasks: [],
     sorting: false,
@@ -60,9 +60,9 @@ export default new Vuex.Store({
       // let task = state.tasks.filter(task => task._id === _id)[0]
       // task.done = !task.done
     // },
-    setTasks (state, tasks) {
-      state.tasks = tasks
-    },
+    // setTasks (state, tasks) {
+    //   state.tasks = tasks
+    // },
     showSnackbar (state, payload) {
       let timeout = 0
       if (state.snackbar.show) {
@@ -87,7 +87,7 @@ export default new Vuex.Store({
       // state.token = payload.token
     },
     SET_USERTASK (state, payload) {
-      console.log('payload from mutations', payload)
+      // console.log('payload from mutations', payload)
       state.allTasks = payload
     }
   },
@@ -133,7 +133,7 @@ export default new Vuex.Store({
           console.log('Error from frontend', e)
         });
     },
-    getUserTasks ({ state, commit }) {
+    getUserTasks ({ state, commit }) { 
       let config = {
         headers: {
           // El token lo sacamos de 'store'

@@ -42,7 +42,7 @@ export default {
       this.$store.commit('addTask', this.newTaskTitle)
       this.newTaskTitle = ''
     },
-
+ 
   }
 }
 </script>

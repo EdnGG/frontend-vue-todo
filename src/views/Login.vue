@@ -96,8 +96,8 @@ export default {
       params: {
         client_id: process.env.VUE_APP_KEY_GOOGLE_CLIENT_ID,
       },
-      dismissSecs: 5,
-      dismissCountDown: 0,
+      // dismissSecs: 5,
+      // dismissCountDown: 0,
       message: {
         color: "",
         text: "",
@@ -123,12 +123,12 @@ export default {
       this.$refs.form.resetValidation();
     },
     ...mapActions(["guardarUsuario"]),
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown;
-    },
-    showAlert() {
-      this.dismissCountDown = this.dismissSecs;
-    },
+    // countDownChanged(dismissCountDown) {
+    //   this.dismissCountDown = dismissCountDown;
+    // },
+    // showAlert() {
+    //   this.dismissCountDown = this.dismissSecs;
+    // },
     onFailure(onFailure) {
       console.log("Autentication failure", onFailure);
     },
@@ -157,7 +157,8 @@ export default {
           .then((res) => {
             const data = res.data;
             this.guardarUsuario(data);
-            this.$router.push({ name: "Todo" });
+            this.$store.dispatch('getUserTasks')
+            this.$router.push({ name: "Todo" });  
           })
           .catch((e) => {
             // this.message.text = e.response.data.message;

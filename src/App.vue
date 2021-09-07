@@ -131,7 +131,10 @@ export default {
     ],
   }),
   mounted () {
-    this.$store.dispatch('getUserTasks')
+    if(this.isActive){
+
+      this.$store.dispatch('getUserTasks')
+    }
   },
   computed: {
     ...mapState(["userDB",]),
