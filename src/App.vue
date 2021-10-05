@@ -19,12 +19,12 @@
           <img
             v-if="userDB"
             :src="userDB.image ? userDB.image : defaultImage "
-            alt="John"
+            alt="User Avatar"
           >
           <img
             v-if="!userDB"
             :src="defaultImage"
-            alt="John"
+            alt="User Avatar"
           >
         </v-avatar>
         <div v-if="userDB">
@@ -95,7 +95,11 @@
         </v-row>
         <v-row>
           <live-date-time />
+          <local-weather />
         </v-row>
+        <!-- <v-row>
+          <live-date-time />
+        </v-row> -->
         <v-row v-if="$route.path === '/todo' ">
           <field-add-task />
         </v-row>
@@ -119,7 +123,8 @@ export default {
     'snackbar': require('@/components/Shared/Snackbar.vue').default,
     'search': require('@/components/Tools/Search.vue').default,
     'live-date-time': require('@/components/Tools/LiveDateTime.vue').default,
-    'rigth-side-toolbar': require('@/components/Tools/RigthSideToolbar.vue').default
+    'rigth-side-toolbar': require('@/components/Tools/RigthSideToolbar.vue').default,
+    'local-weather': require('@/components/Tools/LocalWeather.vue').default
   },
   data: () => ({
     defaultImage: 'https://lenguajejs.com/javascript/logo.svg',
@@ -130,6 +135,10 @@ export default {
       { title: 'Profile', icon: 'mdi-emoticon-cool-outline', to: '/profile' },
     ],
   }),
+  created(){
+    this.$store.dispatch('getLocalWeather')
+    console.log('Weather: ', this.weather);
+  },
   mounted () {
     if(this.isActive){
 
@@ -137,7 +146,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["userDB",]),
+    ...mapState(["userDB","weather"]),
     ...mapGetters(["isActive",]),
     // appTitle() {
     //   return process.env.VUE_APP_TITLE

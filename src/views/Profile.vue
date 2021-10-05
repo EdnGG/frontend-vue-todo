@@ -64,6 +64,9 @@
           <h2>
             {{userDB.active ? 'User Active' : 'User Inactive' }}
           </h2>
+           <h2>
+            {{userDB }}
+          </h2>
           
         </v-card-text>
       </div>
@@ -144,22 +147,6 @@ export default {
       this.showCommitsHistory  ? this.showCommitsHistory = false : this.showCommitsHistory = true
     },
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
-    // uploadImage() {
-    //   let formData = new FormData();
-    //   formData.append("image", this.image);
-    //   // console.log("form-data: ", formData);
-    //   this.axios
-    //     .put(`/upload/${this.userDB._id}`, formData, {
-    //       headers: { "Content-Type": "multipart/form-data" },
-    //     })
-    //     .then((res) => {
-    //       this.updateImageUsuario(res.data.userDB);
-    //     })
-    //     .catch((e) => {
-    //       // console.log("Error: ", e.response.data.err.message);
-    //       this.message = e.response.data.err.message;
-    //     });
-    // },
     
     upload() {
       console.log(this.image)

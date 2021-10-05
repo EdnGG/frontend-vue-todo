@@ -123,12 +123,7 @@ export default {
       this.$refs.form.resetValidation();
     },
     ...mapActions(["guardarUsuario"]),
-    // countDownChanged(dismissCountDown) {
-    //   this.dismissCountDown = dismissCountDown;
-    // },
-    // showAlert() {
-    //   this.dismissCountDown = this.dismissSecs;
-    // },
+    
     onFailure(onFailure) {
       console.log("Autentication failure", onFailure);
     },
@@ -161,10 +156,16 @@ export default {
             this.$router.push({ name: "Todo" });  
           })
           .catch((e) => {
+             this.$store.commit(
+              "showSnackbar",
+              `${e.response.data.message}`
+            );
             // this.message.text = e.response.data.message;
             // this.message.color = 'danger'
             // this.showAlert()
-            console.log("Error", e.response.data.message);
+
+            // console.log("Error", e.response.data.message);
+
           });
       } else {
         console.log("petition is failed");

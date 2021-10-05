@@ -17,6 +17,7 @@ export default new Vuex.Store({
     allTasks: [],
     sorting: false,
     appTitle: process.env.VUE_APP_TITLE,
+    weather: {},
     snackbar: {
       show: false,
       text: '',
@@ -89,9 +90,55 @@ export default new Vuex.Store({
     SET_USERTASK (state, payload) {
       // console.log('payload from mutations', payload)
       state.allTasks = payload
-    }
+    },
+    SET_LOCAL_WEATHER(state, payload){
+      console.log('Payload from mutations: ', payload)
+      state.weather = payload
+    }  
   },
   actions: {
+    getLocalWeather({commit}){
+     return navigator.geolocation.getCurrentPosition(position => {
+        const lat = position.coords.latitude
+        const lon = position.coords.longitude
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=metric`
+        fetch(url)
+        .then(response => { return response.json() })
+        .then(data => {
+          commit('SET_LOCAL_WEATHER', data)})
+          // console.log(data)
+        .catch(error => {
+          console.log(error)
+        })
+      })
+    },
+    // getLocalWeather({commit}, payload) {
+    //   const options = {
+    //     method: 'GET',
+    //     url: 'https://community-open-weather-map.p.rapidapi.com/weather',
+    //     params: {
+    //       q: 'Atlanta ',
+    //       lat: '0',
+    //       lon: '0',
+    //       callback: 'test',
+    //       id: '2172797',
+    //       lang: 'null',
+    //       units: 'imperial',
+    //       mode: 'xml'
+    //     },
+    //     headers: {
+    //       'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com',
+    //       'x-rapidapi-key': '12b19bdcb0msh791ba0832be246dp1397f9jsn782c24601c53'
+    //     }
+    //   };
+      
+    //   axios.request(options).then(function (response) {
+    //     console.log(response.data);
+    //     commit('SET_LOCAL_WEATHER', response.data)
+    //   }).catch(function (error) {
+    //     console.error(error);
+    //   });
+    // },
     doneTask({commit}, task){
       let newTask = task.filter(tarea => tarea._id === _id)[0]
       // let newTask = state.allTasks.filter(tarea => tarea._id === _id)[0]
