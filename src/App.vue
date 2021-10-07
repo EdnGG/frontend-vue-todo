@@ -136,8 +136,7 @@ export default {
     ],
   }),
   created(){
-    this.$store.dispatch('getLocalWeather')
-    console.log('Weather: ', this.weather);
+    // this.$store.dispatch('getLocalWeather')
   },
   mounted () {
     if(this.isActive){
