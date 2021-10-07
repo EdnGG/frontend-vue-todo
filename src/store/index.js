@@ -12,7 +12,6 @@ export default new Vuex.Store({
     token: '',
     userDB: {},
     search: null,
-    // tasks: [],
     task: true,
     allTasks: [],
     sorting: false,
@@ -99,8 +98,10 @@ export default new Vuex.Store({
   actions: {
     getLocalWeather({commit}){
      return navigator.geolocation.getCurrentPosition(position => {
+       console.log('Position: ', position)
         const lat = position.coords.latitude
         const lon = position.coords.longitude
+        // need to find the client location 
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=metric`
         fetch(url)
         .then(response => { return response.json() })
