@@ -1,7 +1,7 @@
 <template>
   <div class="text-subtitle-1 ml-4">
-  {{weather.sys.country}} - {{weather.name}} - {{weather.weather[0].main}} -
-  {{Math.round((weather.main.temp * 9/5) + 32) }} °F
+  {{weather.name}} - {{weather.sys.country}} - {{weather.weather[0].main}} - {{Math.round(weather.main.temp)}}°F
+  
   </div>
 </template>
 

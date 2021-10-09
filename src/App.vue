@@ -93,7 +93,7 @@
             {{ $store.state.appTitle || 'Todos' }}
           </v-app-bar-title>
         </v-row>
-        <v-row>
+        <v-row id="row__tools">
           <live-date-time />
           <local-weather />
         </v-row>
@@ -157,4 +157,9 @@ export default {
 <style lang="sass">
 .header-container
   max-width: none !important
+#row__tools
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-right: 20px
 </style>

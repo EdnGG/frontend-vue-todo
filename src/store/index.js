@@ -97,12 +97,14 @@ export default new Vuex.Store({
   },
   actions: {
     getLocalWeather({commit}){
+      // console.log('object navigation: ', navigatior.geolocation)
      return navigator.geolocation.getCurrentPosition(position => {
        console.log('Position: ', position)
         const lat = position.coords.latitude
         const lon = position.coords.longitude
         // need to find the client location 
-        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=metric`
+        // const url = `https://api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
         fetch(url)
         .then(response => { return response.json() })
         .then(data => {
@@ -113,33 +115,6 @@ export default new Vuex.Store({
         })
       })
     },
-    // getLocalWeather({commit}, payload) {
-    //   const options = {
-    //     method: 'GET',
-    //     url: 'https://community-open-weather-map.p.rapidapi.com/weather',
-    //     params: {
-    //       q: 'Atlanta ',
-    //       lat: '0',
-    //       lon: '0',
-    //       callback: 'test',
-    //       id: '2172797',
-    //       lang: 'null',
-    //       units: 'imperial',
-    //       mode: 'xml'
-    //     },
-    //     headers: {
-    //       'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com',
-    //       'x-rapidapi-key': '12b19bdcb0msh791ba0832be246dp1397f9jsn782c24601c53'
-    //     }
-    //   };
-      
-    //   axios.request(options).then(function (response) {
-    //     console.log(response.data);
-    //     commit('SET_LOCAL_WEATHER', response.data)
-    //   }).catch(function (error) {
-    //     console.error(error);
-    //   });
-    // },
     doneTask({commit}, task){
       let newTask = task.filter(tarea => tarea._id === _id)[0]
       // let newTask = state.allTasks.filter(tarea => tarea._id === _id)[0]
