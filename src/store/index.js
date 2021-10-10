@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex from 'vuex/types/index.js'
 import axios from 'axios';
 import createPersistedState from 'vuex-persistedstate'
 
