@@ -43,6 +43,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/ResetPassword.vue'),
   },
   {
+    path: '/stripe',
+    name: 'Stripe',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Stripe.vue'),
+    meta: { requireAuth: true }
+  },
+  {
     path: '/about',
     name: 'About',
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')

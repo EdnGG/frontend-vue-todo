@@ -76,17 +76,21 @@
 
       <v-container class="header-container pa-0">
 
-        <v-row v-if="$route.path === '/todo' ">
-          <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-          <v-spacer></v-spacer>
-          <search />
-          <rigth-side-toolbar v-if="$route.path === '/login' || '/profile' " />
-        </v-row>
+        
+        <v-row>
 
-        <v-row v-else>
+          <v-app-bar-nav-icon 
+            v-if="$route.path === '/todo' ||
+            $route.path === '/profile' ||
+            $route.path === '/about'  ||
+            $route.path === '/stripe' "
+            @click="drawer = !drawer"
+          ></v-app-bar-nav-icon>
           <v-spacer></v-spacer>
+          <search v-if="$route.path === '/todo'" />
           <rigth-side-toolbar />
         </v-row>
+
 
         <v-row>
           <v-app-bar-title class="ml-4 text-h4">
@@ -97,9 +101,7 @@
           <live-date-time />
           <local-weather />
         </v-row>
-        <!-- <v-row>
-          <live-date-time />
-        </v-row> -->
+      
         <v-row v-if="$route.path === '/todo' ">
           <field-add-task />
         </v-row>
@@ -128,11 +130,12 @@ export default {
   },
   data: () => ({
     defaultImage: 'https://lenguajejs.com/javascript/logo.svg',
-    drawer: null,
+    drawer: false,
     items: [
       { title: 'Todo', icon: 'mdi-format-list-checks', to: '/todo' },
       { title: 'About', icon: 'mdi-help-box', to: '/about' },
       { title: 'Profile', icon: 'mdi-emoticon-cool-outline', to: '/profile' },
+      { title: 'Stripe API', icon: 'mdi-cart', to: '/stripe' },
     ],
   }),
   created(){

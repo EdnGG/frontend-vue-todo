@@ -149,7 +149,7 @@ export default {
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
     
     upload() {
-      console.log(this.image)
+      // console.log(this.image)
       let formData = new FormData();
       formData.append("image", this.image);
 
