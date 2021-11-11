@@ -76,31 +76,32 @@
 
       <v-container class="header-container pa-0">
 
-        <v-row v-if="$route.path === '/todo' ">
-          <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-          <v-spacer></v-spacer>
-          <search />
-          <!-- <rigth-side-toolbar v-if="$route.path === '/login' || '/profile' " /> -->
-           <rigth-side-toolbar />
-        </v-row>
+        
+        <v-row>
 
-        <v-row v-else>
+          <v-app-bar-nav-icon 
+            v-if="$route.path === '/todo' ||
+            $route.path === '/profile' ||
+            $route.path === '/about'  ||
+            $route.path === '/stripe' "
+            @click="drawer = !drawer"
+          ></v-app-bar-nav-icon>
           <v-spacer></v-spacer>
+          <search v-if="$route.path === '/todo'" />
           <rigth-side-toolbar />
         </v-row>
+
 
         <v-row>
           <v-app-bar-title class="ml-4 text-h4">
             {{ $store.state.appTitle || 'Todos' }}
           </v-app-bar-title>
         </v-row>
-        <v-row>
+        <v-row id="row__tools">
           <live-date-time />
           <local-weather />
         </v-row>
-        <!-- <v-row>
-          <live-date-time />
-        </v-row> -->
+      
         <v-row v-if="$route.path === '/todo' ">
           <field-add-task />
         </v-row>
@@ -129,16 +130,16 @@ export default {
   },
   data: () => ({
     defaultImage: 'https://lenguajejs.com/javascript/logo.svg',
-    drawer: null,
+    drawer: false,
     items: [
       { title: 'Todo', icon: 'mdi-format-list-checks', to: '/todo' },
       { title: 'About', icon: 'mdi-help-box', to: '/about' },
       { title: 'Profile', icon: 'mdi-emoticon-cool-outline', to: '/profile' },
+      { title: 'Stripe API', icon: 'mdi-cart', to: '/stripe' },
     ],
   }),
   created(){
-    this.$store.dispatch('getLocalWeather')
-    console.log('Weather: ', this.weather);
+    // this.$store.dispatch('getLocalWeather')
   },
   mounted () {
     if(this.isActive){
@@ -159,4 +160,9 @@ export default {
 <style lang="sass">
 .header-container
   max-width: none !important
+#row__tools
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-right: 20px
 </style>

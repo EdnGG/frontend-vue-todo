@@ -1,4 +1,5 @@
 import Vue from 'vue'
+// import Vuex from 'vuex/types/index.js'
 import Vuex from 'vuex'
 import axios from 'axios';
 import createPersistedState from 'vuex-persistedstate'
@@ -12,7 +13,6 @@ export default new Vuex.Store({
     token: '',
     userDB: {},
     search: null,
-    // tasks: [],
     task: true,
     allTasks: [],
     sorting: false,
@@ -26,7 +26,7 @@ export default new Vuex.Store({
 
   mutations: {
     actualizarImagenUsuario (state, payload) {
-      console.log('Payload de actualizarImagenUsuario: ', payload)
+      // console.log('Payload de actualizarImagenUsuario: ', payload)
       state.userDB = payload
     },
     obtenerUsuario (state, payload) {
@@ -84,7 +84,7 @@ export default new Vuex.Store({
     addTask (state, payload) { 
       console.log(payload)
       state.tasks.push(payload.data)
-      console.log('array tasks: ', state.tasks)
+      // console.log('array tasks: ', state.tasks)
       // state.token = payload.token
     },
     SET_USERTASK (state, payload) {
@@ -92,16 +92,20 @@ export default new Vuex.Store({
       state.allTasks = payload
     },
     SET_LOCAL_WEATHER(state, payload){
-      console.log('Payload from mutations: ', payload)
+      // console.log('Payload from mutations: ', payload)
       state.weather = payload
     }  
   },
   actions: {
     getLocalWeather({commit}){
+      // console.log('object navigation: ', navigatior.geolocation)
      return navigator.geolocation.getCurrentPosition(position => {
+      //  console.log('Position: ', position)
         const lat = position.coords.latitude
         const lon = position.coords.longitude
-        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=metric`
+        // need to find the client location 
+        // const url = `https://api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.VUE_APP_WEATHER_API_KEY}&units=imperial`
         fetch(url)
         .then(response => { return response.json() })
         .then(data => {
@@ -112,33 +116,6 @@ export default new Vuex.Store({
         })
       })
     },
-    // getLocalWeather({commit}, payload) {
-    //   const options = {
-    //     method: 'GET',
-    //     url: 'https://community-open-weather-map.p.rapidapi.com/weather',
-    //     params: {
-    //       q: 'Atlanta ',
-    //       lat: '0',
-    //       lon: '0',
-    //       callback: 'test',
-    //       id: '2172797',
-    //       lang: 'null',
-    //       units: 'imperial',
-    //       mode: 'xml'
-    //     },
-    //     headers: {
-    //       'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com',
-    //       'x-rapidapi-key': '12b19bdcb0msh791ba0832be246dp1397f9jsn782c24601c53'
-    //     }
-    //   };
-      
-    //   axios.request(options).then(function (response) {
-    //     console.log(response.data);
-    //     commit('SET_LOCAL_WEATHER', response.data)
-    //   }).catch(function (error) {
-    //     console.error(error);
-    //   });
-    // },
     doneTask({commit}, task){
       let newTask = task.filter(tarea => tarea._id === _id)[0]
       // let newTask = state.allTasks.filter(tarea => tarea._id === _id)[0]
@@ -190,7 +167,7 @@ export default new Vuex.Store({
       axios
         .get("/todos", config)
         .then((res) => {
-          console.log("Get all notes:", res.data);
+          // console.log("Get all notes:", res.data);
           commit('SET_USERTASK', res.data)
         })
         .catch((e) => {
