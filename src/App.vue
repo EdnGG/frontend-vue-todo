@@ -80,7 +80,8 @@
           <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
           <v-spacer></v-spacer>
           <search />
-          <rigth-side-toolbar v-if="$route.path === '/login' || '/profile' " />
+          <!-- <rigth-side-toolbar v-if="$route.path === '/login' || '/profile' " /> -->
+           <rigth-side-toolbar />
         </v-row>
 
         <v-row v-else>
