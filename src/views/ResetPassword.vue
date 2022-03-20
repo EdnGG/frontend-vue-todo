@@ -57,15 +57,15 @@ export default {
     return {
       valid: true,
       name: "",
-      nameRules: [
-        (v) => !!v || "Name is required",
-        (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-      ],
-      email: "",
-      emailRules: [
-        (v) => !!v || "E-mail is required",
-        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-      ],
+      // nameRules: [
+      //   (v) => !!v || "Name is required",
+      //   (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      // ],
+      // email: "",
+      // emailRules: [
+      //   (v) => !!v || "E-mail is required",
+      //   (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      // ],
 
       rules: {
         required: (value) => !!value || "Required.",
@@ -99,20 +99,17 @@ export default {
     resetpassword() {
       if (this.validate) {
         // Cleaning token for URL
-        const resetLink = this.$route.params.resetLink.replace(/["_"]+/g, '.')
-        console.log('ResetLink from frontend: ', resetLink)
+        const resetLink = this.$route.params.resetLink.replace(/["_"]+/g, ".");
+        console.log("ResetLink from frontend: ", resetLink);
         this.axios
-          .put(`/reset-password/${this.$route.params.resetLink}`, { 
+          .put(`/reset-password/${this.$route.params.resetLink}`, {
             pass: this.user.pass,
             // sending token already cleaned to the backend
-            resetLink: resetLink
+            resetLink: resetLink,
           })
           .then((res) => {
-            const data = res.data
-            this.$store.commit(
-              "showSnackbar",
-              `Password changed correctly`
-            );
+            const data = res.data;
+            this.$store.commit("showSnackbar", `Password changed correctly`);
             this.$router.push({ name: "Login" });
             console.log("res.data: ", res.data);
           })

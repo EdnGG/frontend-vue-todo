@@ -1,17 +1,8 @@
 <template>
   <div>
-
-    <v-menu
-      bottom
-      left
-    >
+    <v-menu bottom left>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          icon
-          v-bind="attrs"
-          v-on="on"
-        >
+        <v-btn color="primary" icon v-bind="attrs" v-on="on">
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
       </template>
@@ -45,71 +36,74 @@
       :task="task"
       @close="dialogs.delete = false"
     />
-
   </div>
 </template>
 
 <script>
 export default {
-  props: ['task'],
+  props: ["task"],
   components: {
-    'dialog-delete': require('@/components/Todo/Dialogs/DialogDelete.vue').default,
-    'dialog-edit': require('@/components/Todo/Dialogs/DialogEdit.vue').default,
-    'dialog-due-date': require('@/components/Todo/Dialogs/DialogDueDate.vue').default
+    "dialog-delete": require("@/components/Todo/Dialogs/DialogDelete.vue")
+      .default,
+    "dialog-edit": require("@/components/Todo/Dialogs/DialogEdit.vue").default,
+    "dialog-due-date": require("@/components/Todo/Dialogs/DialogDueDate.vue")
+      .default,
   },
-  data () {
+  data() {
     return {
       dialogs: {
         delete: false,
         edit: false,
-        dueDate: false
+        dueDate: false,
       },
       items: [
         {
-          title: 'Edit',
-          icon: 'mdi-pencil',
-          click () {
-            console.log('edit')
-            this.dialogs.edit = true
-          }
+          title: "Edit",
+          icon: "mdi-pencil",
+          click() {
+            console.log("edit");
+            this.dialogs.edit = true;
+          },
         },
         {
-          title: 'Due date',
-          icon: 'mdi-calendar',
-          click () {
-            console.log('calendar')
-            this.dialogs.dueDate = true
-
-          }
+          title: "Due date",
+          icon: "mdi-calendar",
+          click() {
+            console.log("calendar");
+            this.dialogs.dueDate = true;
+          },
         },
         {
-          title: 'Delete',
-          icon: 'mdi-delete',
-          click () {
-            this.dialogs.delete = true
-          }
+          title: "Delete",
+          icon: "mdi-delete",
+          click() {
+            this.dialogs.delete = true;
+          },
         },
         {
-          title: 'Sort',
-          icon: 'mdi-drag-horizontal-variant',
-          click () {
+          title: "Sort",
+          icon: "mdi-drag-horizontal-variant",
+          click() {
             if (!this.$store.state.search) {
-              this.$store.commit('toggleSorting')
+              this.$store.commit("toggleSorting");
             } else {
-              this.$store.commit('showSnackbar', 'Sort is disabled while searching')
+              this.$store.commit(
+                "showSnackbar",
+                "Sort is disabled while searching"
+              );
             }
-          }
+          },
         },
       ],
-    }
+    };
   },
   methods: {
-    handleClick (i) {
-      console.log('Index: ', i)
-      this.items[i].click.call(this)
-    }
-  }
-}
+    handleClick(i) {
+      console.log("Index: ", i);
+      this.items[i].click.call(this);
+    },
+  },
+};
 </script>
 
 <style>

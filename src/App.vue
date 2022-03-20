@@ -5,7 +5,7 @@
       :mobile-breakpoint="768"
       app
     >
-
+ 
       <v-img
         class="pa-4 pt-7"
         height="190"
