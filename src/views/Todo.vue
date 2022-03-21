@@ -17,34 +17,34 @@ import { mapGetters, mapState } from "vuex";
 */
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     /*  convencional way to import child components
       FieldAddTask,
       'field-add-task' : FieldAddTask
     */
     //  'field-add-task' : require('@/components/Todo/FieldAddTask.vue').default,
-    'list-tasks': require('@/components/Todo/ListTasks.vue').default,
-    'no-tasks': require('@/components/Todo/NoTasks.vue').default,
-    'button-done-sorting': require('@/components/Todo/ButtonDoneSorting.vue').default
+    "list-tasks": require("@/components/Todo/ListTasks.vue").default,
+    "no-tasks": require("@/components/Todo/NoTasks.vue").default,
+    "button-done-sorting": require("@/components/Todo/ButtonDoneSorting.vue")
+      .default,
   },
-  data () {
+  data() {
     return {
-      newTaskTitle: '',
-    }
+      newTaskTitle: "",
+    };
   },
   computed: {
     ...mapState(["token", "allTasks"]),
-    ...mapGetters(['tasksFiltered'])
+    ...mapGetters(["tasksFiltered"]),
   },
   methods: {
-    addTask () {
-      this.$store.commit('addTask', this.newTaskTitle)
-      this.newTaskTitle = ''
+    addTask() {
+      this.$store.commit("addTask", this.newTaskTitle);
+      this.newTaskTitle = "";
     },
- 
-  }
-}
+  },
+};
 </script>
 
 

@@ -3,6 +3,7 @@
     <!-- @click="$store.commit('doneTask', task)" -->
     <!-- @click="$store.state.task ? $store.state.task = false : $store.state.task = true" -->
     <v-list-item
+      @click="doneTask(task._id)"
       :class="{ 'blue lighten-5': task.done }"
       :ripple="false"
       class="white"
@@ -10,6 +11,7 @@
       <template v-slot:default>
         <v-list-item-action>
           <v-checkbox :input-value="task.done" color="primary"></v-checkbox>
+          <!-- aqui -->
         </v-list-item-action>
 
         <v-list-item-content>
@@ -32,7 +34,7 @@
         <v-list-item-action>
           <!-- @click.stop="deleteTask(task.id)" detiene la propagacion del evento
           que se ejecuta en el elemento padre"\ -->
-
+          <!-- {{task}} -->
           <task-menu :task="task" />
         </v-list-item-action>
 
@@ -54,6 +56,14 @@ export default {
   components: {
     "task-menu": require("@/components/Todo/TaskMenu.vue").default,
   },
+  methods: {
+    doneTask(id) {
+      console.log(id);
+      // this.$store.dispatch("doneTask", id);
+      this.task.done = !this.task.done;
+      // this.$store.commit("doneTask", this.task);
+    },
+  },
   filters: {
     niceDate(value) {
       // let newValue = value + 1
@@ -65,7 +75,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="sass">
 .sortable-ghost

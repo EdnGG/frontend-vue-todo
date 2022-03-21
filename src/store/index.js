@@ -13,7 +13,7 @@ export default new Vuex.Store({
     token: '',
     userDB: {},
     search: null,
-    task: true,
+    task: true, 
     allTasks: [],
     sorting: false,
     appTitle: process.env.VUE_APP_TITLE,
@@ -44,6 +44,10 @@ export default new Vuex.Store({
       console.log(payload)
       let task = state.tasks.filter(task => task.id === payload.id)[0]
       task.dueDate = payload.dueDate
+    },
+    SET_DONE_TASK (state, payload) {
+      console.log('SET_DONE_TASK', payload)
+      state.allTasks = payload
     },
     updateTaskTitle (state, payload) {
       console.log(payload)
@@ -94,7 +98,7 @@ export default new Vuex.Store({
     SET_LOCAL_WEATHER(state, payload){
       // console.log('Payload from mutations: ', payload)
       state.weather = payload
-    }  
+    },
   },
   actions: {
     getLocalWeather({commit}){
@@ -116,13 +120,15 @@ export default new Vuex.Store({
         })
       })
     },
-    doneTask({commit}, task){
-      let newTask = task.filter(tarea => tarea._id === _id)[0]
-      // let newTask = state.allTasks.filter(tarea => tarea._id === _id)[0]
+    doneTask({commit}, id){
+      // let newTask = task.filter(tarea => tarea._id === _id)[0]
+      let newTask = state.allTasks.filter(tarea => tarea._id === id)[0]
       newTask.done = !newTask.done
       axios
         .put(`/nota/done/${newTask._id}`, { done: task.done })
         .then((res) => {
+          console.log('res de doneTask action: ', res )
+          commit('SET_DONE_TASK', id)
           commit('showSnackbar', ' correctly')
           dispatch('getUserTasks')
         })
@@ -130,8 +136,34 @@ export default new Vuex.Store({
           commit('showSnackbar', 'ERROR: ' + e.response)
           console.error('Error' + e.response);
         });
-
     },
+
+    // DONE TASK
+    // doneTask ({ state, commit }, doneState) {
+    //   let newTask = {
+    //     id: this.state.userDB._id,
+    //     // title: newTaskTitle,
+    //     done: doneState,
+    //     // dueDate: null
+    //   }
+
+    //   let config = {
+    //     headers: {
+    //       token: state.token,
+    //     },
+    //   };
+    //   // 1 ruta, 2 body, 3 headers(config)
+    //   axios
+    //     .post(`/nota/done/${newTask.id}`, newTask, config)
+    //     .then((res) => {
+    //       console.log('res.data: ', res.data)
+    //       commit('SET_DONE_TASK', res.data)
+
+    //     })
+    //     .catch((e) => {
+    //       console.log('Error from frontend', e)
+    //     });
+    // },
     addTask ({ state, commit }, newTaskTitle) {
       let newTask = {
         id: this.state.userDB._id,
