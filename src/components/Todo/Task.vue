@@ -56,14 +56,6 @@ export default {
   components: {
     "task-menu": require("@/components/Todo/TaskMenu.vue").default,
   },
-  methods: {
-    doneTask(id) {
-      console.log(id);
-      // this.$store.dispatch("doneTask", id);
-      this.task.done = !this.task.done;
-      // this.$store.commit("doneTask", this.task);
-    },
-  },
   filters: {
     niceDate(value) {
       // let newValue = value + 1
@@ -71,6 +63,34 @@ export default {
         new Date(value.replaceAll("-", "/").substring(0, 10)),
         "MMM d"
       );
+    },
+  },
+  methods: {
+    doneTask(id) {
+      console.log(` Task.id from mongo: ${id}`);
+
+      // axios
+      //   .put(`/nota/duedate/${task.id}`, { dueDate: task.dueDate })
+      //   .then((res) => {
+      //     commit('showSnackbar', 'Set due date correctly')
+      //     dispatch('getUserTasks')
+      //   })
+      //   .catch((e) => {
+      //     commit('showSnackbar', 'ERROR: ' + e.response)
+      //     console.log(e.response);
+      //   });
+
+      try {
+        this.task.done = !this.task.done;
+        this.axios
+          .put(`/nota/done/${id}`, { done: this.task.done })
+          .then((response) => {
+            console.log(`Respuesta de axios: ${response.data}`);
+            this.$store.dispatch("getUserTasks");
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

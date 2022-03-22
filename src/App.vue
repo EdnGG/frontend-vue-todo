@@ -118,43 +118,43 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex';
+import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   components: {
-    'field-add-task': require('@/components/Todo/FieldAddTask.vue').default,
-    'snackbar': require('@/components/Shared/Snackbar.vue').default,
-    'search': require('@/components/Tools/Search.vue').default,
-    'live-date-time': require('@/components/Tools/LiveDateTime.vue').default,
-    'rigth-side-toolbar': require('@/components/Tools/RigthSideToolbar.vue').default,
-    'local-weather': require('@/components/Tools/LocalWeather.vue').default
+    "field-add-task": require("@/components/Todo/FieldAddTask.vue").default,
+    snackbar: require("@/components/Shared/Snackbar.vue").default,
+    search: require("@/components/Tools/Search.vue").default,
+    "live-date-time": require("@/components/Tools/LiveDateTime.vue").default,
+    "rigth-side-toolbar": require("@/components/Tools/RigthSideToolbar.vue")
+      .default,
+    "local-weather": require("@/components/Tools/LocalWeather.vue").default,
   },
   data: () => ({
-    defaultImage: 'https://lenguajejs.com/javascript/logo.svg',
+    defaultImage: "https://lenguajejs.com/javascript/logo.svg",
     drawer: false,
     items: [
-      { title: 'Todo', icon: 'mdi-format-list-checks', to: '/todo' },
-      { title: 'About', icon: 'mdi-help-box', to: '/about' },
-      { title: 'Profile', icon: 'mdi-emoticon-cool-outline', to: '/profile' },
-      { title: 'Stripe API', icon: 'mdi-cart', to: '/stripe' },
+      { title: "Todo", icon: "mdi-format-list-checks", to: "/todo" },
+      { title: "About", icon: "mdi-help-box", to: "/about" },
+      { title: "Profile", icon: "mdi-emoticon-cool-outline", to: "/profile" },
+      { title: "Stripe API", icon: "mdi-cart", to: "/stripe" },
     ],
   }),
-  created(){
+  created() {
     // this.$store.dispatch('getLocalWeather')
   },
-  mounted () {
-    if(this.isActive){
-
-      this.$store.dispatch('getUserTasks')
+  mounted() {
+    if (this.isActive) {
+      this.$store.dispatch("getUserTasks");
     }
   },
   computed: {
-    ...mapState(["userDB","weather"]),
-    ...mapGetters(["isActive",]),
+    ...mapState(["userDB", "weather"]),
+    ...mapGetters(["isActive"]),
     // appTitle() {
     //   return process.env.VUE_APP_TITLE
     // }
-  }
-}
+  },
+};
 </script>
 
 <style lang="sass">

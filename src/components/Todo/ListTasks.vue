@@ -22,15 +22,15 @@ import draggable from "vuedraggable";
 export default {
   computed: {
     ...mapState(["allTasks"]),
-    ...mapGetters(['tasksFiltered']),
+    ...mapGetters(["tasksFiltered"]),
     myList: {
-      get () {
-        return this.tasksFiltered
+      get() {
+        return this.tasksFiltered;
       },
-      set (value) {
-        this.$store.commit('updateList', value)
-      }
-    }
+      set(value) {
+        this.$store.commit("updateList", value);
+      },
+    },
     // logTasks() {
     //   let array = this.allTasks.map(
     //     (task) => {
@@ -57,12 +57,12 @@ export default {
     //   );
     // },
   },
-  mounted () {
+  mounted() {
     // this.getUserTasks();
     // console.log("created hook");
   },
   methods: {
-    ...mapActions(["getUserTasks"]),
+    // ...mapActions(["getUserTasks"]),
   },
   components: {
     task: require("@/components/Todo/Task.vue").default,

@@ -87,7 +87,8 @@ export default new Vuex.Store({
     },
     addTask (state, payload) { 
       console.log(payload)
-      state.tasks.push(payload.data)
+      // state.tasks.push(payload.data)
+      state.allTasks.push(payload.data)
       // console.log('array tasks: ', state.tasks)
       // state.token = payload.token
     },
@@ -199,7 +200,7 @@ export default new Vuex.Store({
       axios
         .get("/todos", config)
         .then((res) => {
-          // console.log("Get all notes:", res.data);
+          console.log("Get all notes:", res.data);
           commit('SET_USERTASK', res.data)
         })
         .catch((e) => {

@@ -29,15 +29,6 @@
             </router-link>
           </div>
 
-          <!-- <div class="d-flex align-end flex-column" style="margin-top: -20px">
-            <v-btn icon href="/reset-password"> Forgot password? </v-btn>
-          </div> -->
-
-          <!-- <template v-slot:item.link="{ item }">
-    <a :href="item.link">Link</a>
-  </template>
-      <h6>Forgot password?</h6> -->
-
           <v-container justify="center" class="d-flex justify-center my-12">
             <v-btn
               :disabled="!valid"
@@ -123,7 +114,7 @@ export default {
       this.$refs.form.resetValidation();
     },
     ...mapActions(["guardarUsuario"]),
-    
+
     onFailure(onFailure) {
       console.log("Autentication failure", onFailure);
     },
@@ -152,20 +143,16 @@ export default {
           .then((res) => {
             const data = res.data;
             this.guardarUsuario(data);
-            this.$store.dispatch('getUserTasks')
-            this.$router.push({ name: "Todo" });  
+            this.$store.dispatch("getUserTasks");
+            this.$router.push({ name: "Todo" });
           })
           .catch((e) => {
-             this.$store.commit(
-              "showSnackbar",
-              `${e.response.data.message}`
-            );
+            this.$store.commit("showSnackbar", `${e.response.data.message}`);
             // this.message.text = e.response.data.message;
             // this.message.color = 'danger'
             // this.showAlert()
 
             // console.log("Error", e.response.data.message);
-
           });
       } else {
         console.log("petition is failed");
