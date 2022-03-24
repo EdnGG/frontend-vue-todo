@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <list-tasks v-if="tasksFiltered" />
+    <list-tasks v-if="tasksFiltered.length" />
 
     <no-tasks v-else />
 

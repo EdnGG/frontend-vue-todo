@@ -68,18 +68,6 @@ export default {
   methods: {
     doneTask(id) {
       console.log(` Task.id from mongo: ${id}`);
-
-      // axios
-      //   .put(`/nota/duedate/${task.id}`, { dueDate: task.dueDate })
-      //   .then((res) => {
-      //     commit('showSnackbar', 'Set due date correctly')
-      //     dispatch('getUserTasks')
-      //   })
-      //   .catch((e) => {
-      //     commit('showSnackbar', 'ERROR: ' + e.response)
-      //     console.log(e.response);
-      //   });
-
       try {
         this.task.done = !this.task.done;
         this.axios

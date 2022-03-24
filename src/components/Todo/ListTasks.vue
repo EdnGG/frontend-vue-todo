@@ -3,15 +3,21 @@
     class="pt-0"
     flat
   >
-    <draggable
+      <!-- :list="$store.getters.tasksFiltered" -->
+    <draggable 
       v-model="myList"
       handle=".handle"
     >
+    <!-- -->
+    {{tasksFiltered[0]._id}} - {{tasksFiltered.length}} 
+    
+    <!--  -->
       <task
         v-for="task in tasksFiltered"
         :key="task._id"
         :task="task"
       />
+      <!-- {{task}} -->
     </draggable>
   </v-list>
 </template>
@@ -25,9 +31,17 @@ export default {
     ...mapGetters(["tasksFiltered"]),
     myList: {
       get() {
+        // this.taskFiltered.forEach((element) => {
+        //   return element;
+        // });
+
         return this.tasksFiltered;
+        // return this.allTasks;
       },
       set(value) {
+        console.log("Value on set: ", value);
+        // dispatch para actualizar DB
+        // commit para actualizar vista
         this.$store.commit("updateList", value);
       },
     },

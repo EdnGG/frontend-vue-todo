@@ -65,9 +65,9 @@ export default new Vuex.Store({
       // let task = state.tasks.filter(task => task._id === _id)[0]
       // task.done = !task.done
     // },
-    // setTasks (state, tasks) {
-    //   state.tasks = tasks
-    // },
+    setTasks (state, tasks) {
+      state.tasks = tasks
+    },
     showSnackbar (state, payload) {
       let timeout = 0
       if (state.snackbar.show) {
@@ -83,6 +83,7 @@ export default new Vuex.Store({
       state.sorting = !state.sorting
     },
     updateList (state, payload) {
+      // 
       state.allTasks = payload
     },
     addTask (state, payload) { 
@@ -122,7 +123,6 @@ export default new Vuex.Store({
       })
     },
     doneTask({commit}, id){
-      // let newTask = task.filter(tarea => tarea._id === _id)[0]
       let newTask = state.allTasks.filter(tarea => tarea._id === id)[0]
       newTask.done = !newTask.done
       axios
@@ -139,32 +139,6 @@ export default new Vuex.Store({
         });
     },
 
-    // DONE TASK
-    // doneTask ({ state, commit }, doneState) {
-    //   let newTask = {
-    //     id: this.state.userDB._id,
-    //     // title: newTaskTitle,
-    //     done: doneState,
-    //     // dueDate: null
-    //   }
-
-    //   let config = {
-    //     headers: {
-    //       token: state.token,
-    //     },
-    //   };
-    //   // 1 ruta, 2 body, 3 headers(config)
-    //   axios
-    //     .post(`/nota/done/${newTask.id}`, newTask, config)
-    //     .then((res) => {
-    //       console.log('res.data: ', res.data)
-    //       commit('SET_DONE_TASK', res.data)
-
-    //     })
-    //     .catch((e) => {
-    //       console.log('Error from frontend', e)
-    //     });
-    // },
     addTask ({ state, commit }, newTaskTitle) {
       let newTask = {
         id: this.state.userDB._id,
