@@ -1,22 +1,9 @@
 <template>
-  <v-list
-    class="pt-0"
-    flat
-  >
-      <!-- :list="$store.getters.tasksFiltered" -->
-    <draggable 
-      v-model="myList"
-      handle=".handle"
-    >
-    <!-- -->
-    {{tasksFiltered[0]._id}} - {{tasksFiltered.length}} 
-    
-    <!--  -->
-      <task
-        v-for="task in tasksFiltered"
-        :key="task._id"
-        :task="task"
-      />
+  <v-list class="pt-0" flat>
+    <!-- :list="$store.getters.tasksFiltered" -->
+    <draggable v-model="myList" handle=".handle">
+      {{ tasksFiltered[0]._id }} - {{ tasksFiltered.length }}
+      <task v-for="task in myList" :key="task._id" :task="task" />
       <!-- {{task}} -->
     </draggable>
   </v-list>
@@ -36,40 +23,19 @@ export default {
         // });
 
         return this.tasksFiltered;
-        // return this.allTasks;
       },
       set(value) {
         console.log("Value on set: ", value);
+        // Limpio el array value de valores undefined
+        const newArray = value.filter((val) => typeof val === "object");
+        // this.taskFiltered = newArray;
+        console.log("New array: ", newArray);
         // dispatch para actualizar DB
         // commit para actualizar vista
-        this.$store.commit("updateList", value);
+        this.$store.commit("updateList", newArray);
+        this.$store.taskFiltered = newArray;
       },
     },
-    // logTasks() {
-    //   let array = this.allTasks.map(
-    //     (task) => {
-    //       return task;
-    //       //   console.log('allTasks: ', this.allTasks)
-    //     }
-    //     // tasks: {
-    //     //     get(){
-    //     //         return this.$store.getters.tasksFiltered
-    //     //     },
-    //     //     set(value) {
-    //     //         this.$store.dispatch('setTasks', value)
-    //     //     }
-    //     // }
-    //     //    tasks(){
-    //     //     //    return this.$store.getters.tasksFiltered
-    //     //     return this.$store.state.tasks
-
-    //     //    }
-
-    //     // getTasks(){
-    //     //     return getUserTasks()
-    //     // }
-    //   );
-    // },
   },
   mounted() {
     // this.getUserTasks();

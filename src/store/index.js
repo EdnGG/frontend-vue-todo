@@ -87,7 +87,7 @@ export default new Vuex.Store({
       state.allTasks = payload
     },
     addTask (state, payload) { 
-      console.log(payload)
+      console.log('addtask: ',payload)
       // state.tasks.push(payload.data)
       state.allTasks.push(payload.data)
       // console.log('array tasks: ', state.tasks)
@@ -144,7 +144,8 @@ export default new Vuex.Store({
         id: this.state.userDB._id,
         title: newTaskTitle,
         done: false,
-        dueDate: null
+        dueDate: null,
+        index: state.allTasks.length,
       }
 
       let config = {

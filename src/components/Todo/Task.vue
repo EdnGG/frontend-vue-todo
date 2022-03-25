@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- @click="$store.commit('doneTask', task)" -->
-    <!-- @click="$store.state.task ? $store.state.task = false : $store.state.task = true" -->
     <v-list-item
       @click="doneTask(task._id)"
       :class="{ 'blue lighten-5': task.done }"
@@ -11,7 +9,6 @@
       <template v-slot:default>
         <v-list-item-action>
           <v-checkbox :input-value="task.done" color="primary"></v-checkbox>
-          <!-- aqui -->
         </v-list-item-action>
 
         <v-list-item-content>
@@ -73,7 +70,8 @@ export default {
         this.axios
           .put(`/nota/done/${id}`, { done: this.task.done })
           .then((response) => {
-            console.log(`Respuesta de axios: ${response.data}`);
+            // no se porque regresa object [ object Object ]
+            // console.log(`Respuesta de axios: ${response}`);
             this.$store.dispatch("getUserTasks");
           });
       } catch (error) {
