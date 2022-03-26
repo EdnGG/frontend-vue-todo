@@ -57,14 +57,6 @@ export default new Vuex.Store({
     deleteTask (state, id) {
       state.tasks = state.tasks.filter(task => task.id !== id)
     },
-    // doneTask (state, id) {
-      // agregamos [0] para que pueda agarrar el primer elemnto del arreglo de objetos
-      /**
-       * Primero return an array of objects, not a single object
-       */
-      // let task = state.tasks.filter(task => task._id === _id)[0]
-      // task.done = !task.done
-    // },
     setTasks (state, tasks) {
       state.tasks = tasks
     },
@@ -82,7 +74,7 @@ export default new Vuex.Store({
     toggleSorting (state) {
       state.sorting = !state.sorting
     },
-    updateList (state, payload) {
+    setUpdateList (state, payload) {
       // 
       state.allTasks = payload
     },
@@ -165,6 +157,7 @@ export default new Vuex.Store({
           console.log('Error from frontend', e)
         });
     },
+    // la funcion de abajo la hice asincrona
     getUserTasks ({ state, commit }) { 
       let config = {
         headers: {
@@ -174,6 +167,7 @@ export default new Vuex.Store({
       };
       axios
         .get("/todos", config)
+
         .then((res) => {
           console.log("Get all notes:", res.data);
           commit('SET_USERTASK', res.data)
@@ -194,6 +188,22 @@ export default new Vuex.Store({
           console.log(e.response);
         });
     },
+    // 
+    updateList ({ commit, dispatch }, list) {
+      console.log('objeto task: ', list)
+      axios
+        // .put(`/nota/update-list/${task.id}`, { index: task.index })
+        .put(`/nota/update-list/${list}`)
+        .then((res) => {
+          dispatch('getUserTasks')
+          commit('showSnackbar', 'List updated correctly')
+        })
+        .catch((e) => {
+          commit('showSnackbar', 'ERROR: ' + e)
+          console.log(e.response);
+        });
+    },
+    // 
     updateTask ({ commit, dispatch }, task) {
       axios
         .put(`/nota/${task.id}`, { title: task.title })
@@ -210,6 +220,7 @@ export default new Vuex.Store({
       axios
         .put(`/nota/duedate/${task.id}`, { dueDate: task.dueDate })
         .then((res) => {
+          // commit showing info
           commit('showSnackbar', 'Set due date correctly')
           dispatch('getUserTasks')
         })

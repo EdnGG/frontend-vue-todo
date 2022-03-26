@@ -20,42 +20,50 @@ export default {
   },
   data() {
     return {
-      myList: this.tasksFiltered,
+      // no funciona
+      // myList2: this.tasksFiltered,
     };
   },
-  watch: {
-    myList: {
-      handler: function (newVal, oldVal) {
-        console.log("newVal: ", newVal);
-        console.log("oldVal: ", oldVal);
-        //watch debe escuchar myList
-        // this.$store.taskFiltered = newVal;
-        this.$store.commit("updateList", newVal);
-      },
-    },
-  },
+
   created() {
-    this.myList = this.tasksFiltered;
+    // no funciona
+    // this.myList2 = this.tasksFiltered;
   },
   computed: {
     ...mapState(["allTasks"]),
     ...mapGetters(["tasksFiltered"]),
-    // myList: {
-    //   get() {
-    //     return this.tasksFiltered;
-    //   },
-    //   set(value) {
-    //     // Limpio el array value de valores undefined
-    //     const newArray = value.filter((val) => typeof val === "object");
-    //     // this.taskFiltered = newArray;
+    myList: {
+      get() {
+        return this.tasksFiltered;
+        // return this.MyList2;
+      },
+      set(newOrderList) {
+        // Limpio el array value de valores undefined
+        // const newArray = value.filter((val) => typeof val === "object");
+        // this.taskFiltered = newArray;
 
-    //     // //watch debe escuchar myList
-    //     this.$store.taskFiltered = newArray;
-    //     this.$store.commit("updateList", newArray);
-    //   },
-    // },
+        // //watch debe escuchar myList
+        // this.$store.commit("updateList", newArray);
+        console.log("set: ", newOrderList);
+        // actualiza la vista
+        this.$store.commit("setUpdateList", newOrderList);
+        // bd
+        // this.$store.dispatch("updateList", newOrderList);
+      },
+    },
   },
-
+  // watch: {
+  //   myList: {
+  //     async handler(newList, oldList) {
+  //       console.log("watch newValue: ", newList);
+  //       console.log("watch oldvalue: ", oldList);
+  //       // Actualiza la DB, Value es el nuevo array
+  //       // Aqui entra en un loop infinito
+  //       await this.$store.dispatch("updateList", newList);
+  //       // this.$store.taskFiltered = newArray;
+  //     },
+  //   },
+  // },
   methods: {
     // ...mapActions(["getUserTasks"]),
   },
