@@ -1,7 +1,7 @@
 <template>
   <v-list class="pt-0" flat>
 
-    <draggable v-model="myList" handle=".handle">
+    <draggable v-model="myList" @start="true" @end="false">
       <task v-for="task in myList" :key="task._id" :task="task" />
     </draggable>
 
