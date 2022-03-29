@@ -79,25 +79,18 @@ export default new Vuex.Store({
     },
     addTask (state, payload) { 
       console.log('addtask: ',payload)
-      // state.tasks.push(payload.data)
       state.allTasks.push(payload)
-      // console.log('array tasks: ', state.tasks)
-      // state.token = payload.token
     },
     SET_USERTASK (state, payload) {
-      // console.log('payload from mutations', payload)
       state.allTasks = payload
     },
     SET_LOCAL_WEATHER(state, payload){
-      // console.log('Payload from mutations: ', payload)
       state.weather = payload
     },
   },
   actions: {
     getLocalWeather({commit}){
-      // console.log('object navigation: ', navigatior.geolocation)
      return navigator.geolocation.getCurrentPosition(position => {
-      //  console.log('Position: ', position)
         const lat = position.coords.latitude
         const lon = position.coords.longitude
         // need to find the client location 
@@ -107,7 +100,6 @@ export default new Vuex.Store({
         .then(response => { return response.json() })
         .then(data => {
           commit('SET_LOCAL_WEATHER', data)})
-          // console.log(data)
         .catch(error => {
           console.log(error)
         })
@@ -156,7 +148,6 @@ export default new Vuex.Store({
           console.log('Error from frontend', e)
         });
     },
-    // la funcion de abajo la hice asincrona
     getUserTasks ({ state, commit }) { 
       let config = {
         headers: {
