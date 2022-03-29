@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <list-tasks v-if="tasksFiltered" />
+    <list-tasks v-if="tasksFiltered.length" />
 
     <no-tasks v-else />
 
@@ -23,7 +23,6 @@ export default {
       FieldAddTask,
       'field-add-task' : FieldAddTask
     */
-    //  'field-add-task' : require('@/components/Todo/FieldAddTask.vue').default,
     "list-tasks": require("@/components/Todo/ListTasks.vue").default,
     "no-tasks": require("@/components/Todo/NoTasks.vue").default,
     "button-done-sorting": require("@/components/Todo/ButtonDoneSorting.vue")

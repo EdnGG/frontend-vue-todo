@@ -26,7 +26,6 @@ export default new Vuex.Store({
 
   mutations: {
     actualizarImagenUsuario (state, payload) {
-      // console.log('Payload de actualizarImagenUsuario: ', payload)
       state.userDB = payload
     },
     obtenerUsuario (state, payload) {
@@ -57,17 +56,9 @@ export default new Vuex.Store({
     deleteTask (state, id) {
       state.tasks = state.tasks.filter(task => task.id !== id)
     },
-    // doneTask (state, id) {
-      // agregamos [0] para que pueda agarrar el primer elemnto del arreglo de objetos
-      /**
-       * Primero return an array of objects, not a single object
-       */
-      // let task = state.tasks.filter(task => task._id === _id)[0]
-      // task.done = !task.done
-    // },
-    // setTasks (state, tasks) {
-    //   state.tasks = tasks
-    // },
+    setTasks (state, tasks) {
+      state.tasks = tasks
+    },
     showSnackbar (state, payload) {
       let timeout = 0
       if (state.snackbar.show) {
@@ -82,30 +73,24 @@ export default new Vuex.Store({
     toggleSorting (state) {
       state.sorting = !state.sorting
     },
-    updateList (state, payload) {
+    setUpdateList (state, payload) {
+      // 
       state.allTasks = payload
     },
     addTask (state, payload) { 
-      console.log(payload)
-      // state.tasks.push(payload.data)
-      state.allTasks.push(payload.data)
-      // console.log('array tasks: ', state.tasks)
-      // state.token = payload.token
+      console.log('addtask: ',payload)
+      state.allTasks.push(payload)
     },
     SET_USERTASK (state, payload) {
-      // console.log('payload from mutations', payload)
       state.allTasks = payload
     },
     SET_LOCAL_WEATHER(state, payload){
-      // console.log('Payload from mutations: ', payload)
       state.weather = payload
     },
   },
   actions: {
     getLocalWeather({commit}){
-      // console.log('object navigation: ', navigatior.geolocation)
      return navigator.geolocation.getCurrentPosition(position => {
-      //  console.log('Position: ', position)
         const lat = position.coords.latitude
         const lon = position.coords.longitude
         // need to find the client location 
@@ -115,14 +100,12 @@ export default new Vuex.Store({
         .then(response => { return response.json() })
         .then(data => {
           commit('SET_LOCAL_WEATHER', data)})
-          // console.log(data)
         .catch(error => {
           console.log(error)
         })
       })
     },
     doneTask({commit}, id){
-      // let newTask = task.filter(tarea => tarea._id === _id)[0]
       let newTask = state.allTasks.filter(tarea => tarea._id === id)[0]
       newTask.done = !newTask.done
       axios
@@ -139,38 +122,13 @@ export default new Vuex.Store({
         });
     },
 
-    // DONE TASK
-    // doneTask ({ state, commit }, doneState) {
-    //   let newTask = {
-    //     id: this.state.userDB._id,
-    //     // title: newTaskTitle,
-    //     done: doneState,
-    //     // dueDate: null
-    //   }
-
-    //   let config = {
-    //     headers: {
-    //       token: state.token,
-    //     },
-    //   };
-    //   // 1 ruta, 2 body, 3 headers(config)
-    //   axios
-    //     .post(`/nota/done/${newTask.id}`, newTask, config)
-    //     .then((res) => {
-    //       console.log('res.data: ', res.data)
-    //       commit('SET_DONE_TASK', res.data)
-
-    //     })
-    //     .catch((e) => {
-    //       console.log('Error from frontend', e)
-    //     });
-    // },
     addTask ({ state, commit }, newTaskTitle) {
       let newTask = {
         id: this.state.userDB._id,
         title: newTaskTitle,
         done: false,
-        dueDate: null
+        dueDate: null,
+        index: state.allTasks.length,
       }
 
       let config = {
@@ -219,6 +177,22 @@ export default new Vuex.Store({
           console.log(e.response);
         });
     },
+    // 
+    updateList ({ commit, dispatch }, list) {
+      // falata optimizar
+      const payload = list.map((item, index) => ({ ...item, index: index + 1 }))
+      axios
+        .put('/nota' , payload )
+        .then((res) => {
+          // Solo actualizamos la base de datos. el computed debe actualizar la lista
+          commit('showSnackbar', 'List updated correctly')
+        })
+        .catch((e) => {
+          commit('showSnackbar', 'ERROR: ' + e)
+          console.log(e.response);
+        });
+    },
+    // 
     updateTask ({ commit, dispatch }, task) {
       axios
         .put(`/nota/${task.id}`, { title: task.title })
@@ -235,6 +209,7 @@ export default new Vuex.Store({
       axios
         .put(`/nota/duedate/${task.id}`, { dueDate: task.dueDate })
         .then((res) => {
+          // commit showing info
           commit('showSnackbar', 'Set due date correctly')
           dispatch('getUserTasks')
         })

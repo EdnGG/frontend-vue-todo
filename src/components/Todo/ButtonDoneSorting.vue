@@ -10,7 +10,11 @@
 
 <script>
 export default {};
+<<<<<<< HEAD
 </script>
+=======
+</script> 
+>>>>>>> dev-sorting
 
 <style lang="sass">
 .button-done-sorting

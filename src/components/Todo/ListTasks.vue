@@ -1,25 +1,33 @@
 <template>
-  <v-list
-    class="pt-0"
-    flat
-  >
-    <draggable
+  <v-list class="pt-0" flat>
+    <Draggable
       v-model="myList"
-      handle=".handle"
+      @start="drag = true"
+      @end="drag = false"
+      :move="move"
     >
-      <task
-        v-for="task in tasksFiltered"
-        :key="task._id"
-        :task="task"
-      />
-    </draggable>
+      <task-item v-for="task in myList" :key="task._id" :task="task" />
+    </Draggable>
   </v-list>
 </template>
 
 <script>
+// dispatch para actualizar DB
+// commit para actualizar vista
 import { mapActions, mapGetters, mapState } from "vuex";
-import draggable from "vuedraggable";
+import Draggable from "vuedraggable";
+
+import TaskItem from "@/components/Todo/TaskItem.vue";
+
 export default {
+  components: {
+    // task: require("@/components/Todo/Task.vue").default,
+    TaskItem,
+    Draggable,
+  },
+  data() {
+    return {};
+  },
   computed: {
     ...mapState(["allTasks"]),
     ...mapGetters(["tasksFiltered"]),
@@ -27,46 +35,25 @@ export default {
       get() {
         return this.tasksFiltered;
       },
-      set(value) {
-        this.$store.commit("updateList", value);
+      set(newOrderList) {
+        console.log("set: ", newOrderList);
+        // actualiza la vista
+        this.$store.commit("setUpdateList", newOrderList);
       },
     },
-    // logTasks() {
-    //   let array = this.allTasks.map(
-    //     (task) => {
-    //       return task;
-    //       //   console.log('allTasks: ', this.allTasks)
-    //     }
-    //     // tasks: {
-    //     //     get(){
-    //     //         return this.$store.getters.tasksFiltered
-    //     //     },
-    //     //     set(value) {
-    //     //         this.$store.dispatch('setTasks', value)
-    //     //     }
-    //     // }
-    //     //    tasks(){
-    //     //     //    return this.$store.getters.tasksFiltered
-    //     //     return this.$store.state.tasks
-
-    //     //    }
-
-    //     // getTasks(){
-    //     //     return getUserTasks()
-    //     // }
-    //   );
-    // },
   },
-  mounted() {
-    // this.getUserTasks();
-    // console.log("created hook");
+  watch: {
+    myList: {
+      async handler(newList) {
+        //  Actualiza la DB
+        await this.$store.dispatch("updateList", newList);
+      },
+    },
   },
   methods: {
-    // ...mapActions(["getUserTasks"]),
-  },
-  components: {
-    task: require("@/components/Todo/Task.vue").default,
-    draggable,
+    move: ({ draggedContext }) => {
+      console.log("move", draggedContext);
+    },
   },
 };
 </script>

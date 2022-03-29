@@ -9,45 +9,35 @@
     clearable
   >
     <template v-slot:append>
-      <v-icon
-        @click="addTask"
-        :disabled="newTaskTitleInvalid"
-      >
+      <v-icon @click="addTask" :disabled="newTaskTitleInvalid">
         mdi-plus
       </v-icon>
     </template>
-
   </v-text-field>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      newTaskTitle: '',
-
-    }
+      newTaskTitle: "",
+    };
   },
   methods: {
-    // doneTask(task, id){
-    //   this.$store.commit('doneTask', task.id)
-    // },
-    addTask () {
+    addTask() {
       if (!this.newTaskTitleInvalid) {
-        this.$store.dispatch('addTask', this.newTaskTitle)
-        this.newTaskTitle = ''
-        this.$store.dispatch('getUserTasks')
-
+        this.$store.dispatch("addTask", this.newTaskTitle);
+        this.newTaskTitle = "";
+        this.$store.dispatch("getUserTasks");
       }
     },
-
   },
   computed: {
-    newTaskTitleInvalid () {
-      return !this.newTaskTitle
-    }
+    newTaskTitleInvalid() {
+      return !this.newTaskTitle;
+    },
   },
-}
+};
 </script>
 
 <style lang="sass">
