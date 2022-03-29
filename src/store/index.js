@@ -26,7 +26,6 @@ export default new Vuex.Store({
 
   mutations: {
     actualizarImagenUsuario (state, payload) {
-      // console.log('Payload de actualizarImagenUsuario: ', payload)
       state.userDB = payload
     },
     obtenerUsuario (state, payload) {
@@ -81,7 +80,7 @@ export default new Vuex.Store({
     addTask (state, payload) { 
       console.log('addtask: ',payload)
       // state.tasks.push(payload.data)
-      state.allTasks.push(payload.data)
+      state.allTasks.push(payload)
       // console.log('array tasks: ', state.tasks)
       // state.token = payload.token
     },
@@ -167,7 +166,6 @@ export default new Vuex.Store({
       };
       axios
         .get("/todos", config)
-
         .then((res) => {
           console.log("Get all notes:", res.data);
           commit('SET_USERTASK', res.data)
@@ -190,12 +188,12 @@ export default new Vuex.Store({
     },
     // 
     updateList ({ commit, dispatch }, list) {
-      console.log('objeto task: ', list)
+      // falata optimizar
+      const payload = list.map((item, index) => ({ ...item, index: index + 1 }))
       axios
-        // .put(`/nota/update-list/${task.id}`, { index: task.index })
-        .put(`/nota/update-list/${list}`)
+        .put('/nota' , payload )
         .then((res) => {
-          dispatch('getUserTasks')
+          // Solo actualizamos la base de datos. el computed debe actualizar la lista
           commit('showSnackbar', 'List updated correctly')
         })
         .catch((e) => {
