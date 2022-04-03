@@ -1,13 +1,25 @@
 <template>
   <v-list class="pt-0" flat>
-    <Draggable
+    <!-- <Draggable
       v-model="myList"
       @start="drag = true"
       @end="drag = false"
       :move="move"
+      v-if="!sorting"
+    > -->
+    <Draggable
+      v-model="myList"
+      :move="move"
+      v-if="sorting"
     >
       <task-item v-for="task in myList" :key="task._id" :task="task" />
     </Draggable>
+    <task-item 
+      v-else
+      v-for="task in myList" 
+      :key="task._id" 
+      :task="task" 
+    />
   </v-list>
 </template>
 
@@ -21,7 +33,6 @@ import TaskItem from "@/components/Todo/TaskItem.vue";
 
 export default {
   components: {
-    // task: require("@/components/Todo/Task.vue").default,
     TaskItem,
     Draggable,
   },
@@ -29,7 +40,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["allTasks"]),
+    ...mapState(["allTasks", "sorting"]),
     ...mapGetters(["tasksFiltered"]),
     myList: {
       get() {
@@ -45,8 +56,13 @@ export default {
   watch: {
     myList: {
       async handler(newList) {
+        if (this.sorting) {
+          console.log("sorting true");
+          return await this.$store.dispatch("updateList", newList);
+        }
+        console.log("Sorting is disabled");
+        //  checar si button sorting es true or false
         //  Actualiza la DB
-        await this.$store.dispatch("updateList", newList);
       },
     },
   },

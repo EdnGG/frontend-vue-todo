@@ -5,7 +5,10 @@
         <v-container justify="center" class="d-flex justify-center">
           <h1>Login</h1>
         </v-container>
-        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-form ref="form" 
+          v-model="valid" 
+          lazy-validation
+        >
           <v-text-field
             v-model="user.email"
             :rules="emailRules"
@@ -17,6 +20,7 @@
             v-model="user.pass"
             :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
             :rules="[rules.required, rules.min]"
+            @keyup.enter="login"
             name="input-10-2"
             label="Password"
             hint="At least 8 characters"
@@ -34,7 +38,7 @@
               :disabled="!valid"
               color="success"
               class="mr-4"
-              @click="login"
+              @click="login" 
             >
               Login
             </v-btn>
