@@ -64,11 +64,11 @@ export default {
   },
   methods: {
     doneTask(id) {
-      console.log(` Task.id from mongo: ${id}`);
+      // console.log(` Task.id from mongo: ${id}`);
       try {
         this.task.done = !this.task.done;
         this.axios
-          .put(`/nota/done/${id}`, { done: this.task.done })
+          .put(`/todos/done/${id}`, { done: this.task.done })
           .then((response) => {
             // no se porque regresa object [ object Object ]
             // console.log(`Respuesta de axios: ${response}`);

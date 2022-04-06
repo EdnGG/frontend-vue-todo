@@ -74,7 +74,6 @@ export default new Vuex.Store({
       state.sorting = !state.sorting
     },
     setUpdateList (state, payload) {
-      // 
       state.allTasks = payload
     },
     addTask (state, payload) { 
@@ -109,7 +108,7 @@ export default new Vuex.Store({
       let newTask = state.allTasks.filter(tarea => tarea._id === id)[0]
       newTask.done = !newTask.done
       axios
-        .put(`/nota/done/${newTask._id}`, { done: task.done })
+        .put(`/todos/done/${newTask._id}`, { done: task.done })
         .then((res) => {
           console.log('res de doneTask action: ', res )
           commit('SET_DONE_TASK', id)
@@ -138,7 +137,7 @@ export default new Vuex.Store({
       };
       // 1 ruta, 2 body, 3 headers(config)
       axios
-        .post("/new-todo", newTask, config)
+        .post("/todos", newTask, config)
         .then((res) => {
           console.log('res.data: ', res.data)
           commit('addTask', res.data)
@@ -167,7 +166,7 @@ export default new Vuex.Store({
     },
     deleteTask ({ commit, dispatch }, idTask) {
       axios
-        .delete(`/nota/${idTask}`)
+        .delete(`/todos/${idTask}`)
         .then((res) => {
           commit('showSnackbar', 'Task deleted correctly')
           dispatch('getUserTasks')
@@ -178,11 +177,11 @@ export default new Vuex.Store({
         });
     },
     // 
-    updateList ({ commit, dispatch }, list) {
-      // falata optimizar
+    updateList ({ commit }, list) {
+      // falta optimizar
       const payload = list.map((item, index) => ({ ...item, index: index + 1 }))
       axios
-        .put('/nota' , payload )
+        .put('/todos' , payload )
         .then((res) => {
           // Solo actualizamos la base de datos. el computed debe actualizar la lista
           commit('showSnackbar', 'List updated correctly')
@@ -195,7 +194,7 @@ export default new Vuex.Store({
     // 
     updateTask ({ commit, dispatch }, task) {
       axios
-        .put(`/nota/${task.id}`, { title: task.title })
+        .put(`/todos/${task.id}`, { title: task.title })
         .then((res) => {
           commit('showSnackbar', 'Task updated correctly')
           dispatch('getUserTasks')
@@ -207,7 +206,7 @@ export default new Vuex.Store({
     },
     updateTaskDueDate ({ commit, dispatch }, task) {
       axios
-        .put(`/nota/duedate/${task.id}`, { dueDate: task.dueDate })
+        .put(`/todos/duedate/${task.id}`, { dueDate: task.dueDate })
         .then((res) => {
           // commit showing info
           commit('showSnackbar', 'Set due date correctly')

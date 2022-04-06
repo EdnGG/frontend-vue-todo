@@ -10,6 +10,8 @@
     <Draggable
       v-model="myList"
       :move="move"
+      @start="drag = true"
+      @end="drag = false"
       v-if="sorting"
     >
       <task-item v-for="task in myList" :key="task._id" :task="task" />

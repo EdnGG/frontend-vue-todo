@@ -65,8 +65,12 @@
             {{userDB.active ? 'User Active' : 'User Inactive' }}
           </h2>
            <h2>
-            {{userDB }}
+            UserDB: {{userDB }}
           </h2>
+          <br>
+          <h3>
+            Tasks Completed: {{allDoneTasks}}
+          </h3>
           
         </v-card-text>
       </div>
@@ -116,38 +120,33 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
       show: false,
-      imageDefault: 'https://lenguajejs.com/javascript/logo.svg',
+      imageDefault: "https://lenguajejs.com/javascript/logo.svg",
       image: null,
       message: null,
       rules: [
-        value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
-      ], 
-    }
+        (value) =>
+          !value ||
+          value.size < 2000000 ||
+          "Avatar size should be less than 2 MB!",
+      ],
+    };
   },
   computed: {
-    ...mapState(["userDB"]),
-    
+    ...mapState(["userDB", "allTasks"]),
+    allDoneTasks() {
+      const nameTasks = this.allTasks.filter((task) => task.done);
+      return nameTasks.length;
+    },
   },
-  created(){
-    this.gettingCommmits()
-  },
+  created() {},
   methods: {
-    async gettingCommmits (){
-      const res = await fetch('https://api.github.com/repos/EdnGG/vue-technical-test/commits')
-      const data = await res.json()
-      this.showCommitsData = data
-    },
-    
-    showCommitsListElement(){
-      this.showCommitsHistory  ? this.showCommitsHistory = false : this.showCommitsHistory = true
-    },
     ...mapActions(["guardarUsuario", "updateImageUsuario"]),
-    
+
     upload() {
       // console.log(this.image)
       let formData = new FormData();
@@ -159,14 +158,16 @@ export default {
         })
         .then((res) => {
           this.updateImageUsuario(res.data.userDB);
-          this.$store.commit('showSnackbar', `Hey ${res.data.userDB.name} image was updated successfully`)
+          this.$store.commit(
+            "showSnackbar",
+            `Hey ${res.data.userDB.name} image was updated successfully`
+          );
         })
         .catch((e) => {
           // console.log("Error: ", e.response.data.err.message);
           this.message = e.response.data.err.message;
         });
-
-    }
+    },
   },
 };
 </script>
@@ -183,11 +184,11 @@ p,
 table,
 form,
 button {
-color: hsl(246, 4%, 53%);  
-font-weight: 800;
+  color: hsl(246, 4%, 53%);
+  font-weight: 800;
 }
-ul{
-  list-style:none
+ul {
+  list-style: none;
 }
 
 .form-group .formdata--div {
