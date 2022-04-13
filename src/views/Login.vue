@@ -5,10 +5,7 @@
         <v-container justify="center" class="d-flex justify-center">
           <h1>Login</h1>
         </v-container>
-        <v-form ref="form" 
-          v-model="valid" 
-          lazy-validation
-        >
+        <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field
             v-model="user.email"
             :rules="emailRules"
@@ -38,7 +35,7 @@
               :disabled="!valid"
               color="success"
               class="mr-4"
-              @click="login" 
+              @click="login"
             >
               Login
             </v-btn>
@@ -91,8 +88,7 @@ export default {
       params: {
         client_id: process.env.VUE_APP_KEY_GOOGLE_CLIENT_ID,
       },
-      // dismissSecs: 5,
-      // dismissCountDown: 0,
+
       message: {
         color: "",
         text: "",
@@ -141,30 +137,28 @@ export default {
         });
     },
     login() {
-      if (this.validate) {
-        this.axios
-          .post("/login", this.user)
-          .then((res) => {
-            const data = res.data;
-            this.guardarUsuario(data);
-            this.$store.dispatch("getUserTasks");
-            this.$router.push({ name: "Todo" });
-          })
-          .catch((e) => {
-            this.$store.commit("showSnackbar", `${e.response.data.message}`);
-            // this.message.text = e.response.data.message;
-            // this.message.color = 'danger'
-            // this.showAlert()
-
-            // console.log("Error", e.response.data.message);
-          });
-      } else {
-        console.log("petition is failed");
+      try {
+        if (this.validate()) {
+          this.axios
+            .post("/login", this.user)
+            .then((res) => {
+              const data = res.data;
+              this.guardarUsuario(data);
+              this.$store.dispatch("getUserTasks");
+              this.$router.push({ name: "Todo" });
+            })
+            .catch((e) => {
+              this.$store.commit("showSnackbar", `${e.response.data.message}`);
+            });
+        } else {
+          throw new Error("Form is not valid");
+        }
+      } catch (err) {
+        console.log(err);
       }
     },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -70,9 +70,17 @@
           </h2> -->
           <br>
           <h3>
-            Tasks Completed: {{allDoneTasks}}
+            Tasks Completed: {{ allDoneTasks }}
           </h3>
-          
+          <br>
+          <h3>
+            Pending Tasks: {{ pendingTasks }}
+          </h3>
+           <br>
+          <h3>
+            DueDate Tasks: {{ duedateTasks }}
+          </h3>
+
         </v-card-text>
       </div>
     </v-expand-transition>
@@ -141,6 +149,14 @@ export default {
     ...mapState(["userDB", "allTasks"]),
     allDoneTasks() {
       const nameTasks = this.allTasks.filter((task) => task.done);
+      return nameTasks.length;
+    },
+    pendingTasks() {
+      const nameTasks = this.allTasks.filter((task) => !task.done);
+      return nameTasks.length;
+    },
+    duedateTasks() {
+      const nameTasks = this.allTasks.filter((task) => task.dueDate !== null);
       return nameTasks.length;
     },
   },
