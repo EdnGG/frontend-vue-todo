@@ -94,7 +94,7 @@
 
         <v-row>
           <v-app-bar-title class="ml-4 text-h4">
-            {{ $store.state.appTitle || 'Todos' }}
+            {{ $store.state.appTitle || "ToVuevify's list" }}
           </v-app-bar-title>
         </v-row>
         <v-row id="row__tools">
@@ -139,9 +139,6 @@ export default {
       { title: "Stripe API", icon: "mdi-cart", to: "/stripe" },
     ],
   }),
-  created() {
-    // this.$store.dispatch('getLocalWeather')
-  },
   mounted() {
     if (this.isActive) {
       this.$store.dispatch("getUserTasks");

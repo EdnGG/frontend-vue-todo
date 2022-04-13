@@ -16,7 +16,7 @@ export default new Vuex.Store({
     task: true, 
     allTasks: [],
     sorting: false,
-    appTitle: process.env.VUE_APP_TITLE,
+    appTitle: process.env.VUE_APP_TITLE, 
     weather: {},
     snackbar: {
       show: false,
