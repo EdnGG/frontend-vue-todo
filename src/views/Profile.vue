@@ -62,11 +62,12 @@
           </h2>
           <br>
           <h2>
-            {{userDB.active ? 'User Active' : 'User Inactive' }}
+           Active: {{userDB.active ? 'True' : 'False' }}
           </h2>
+          <!-- <br>
            <h2>
             UserDB: {{userDB }}
-          </h2>
+          </h2> -->
           <br>
           <h3>
             Tasks Completed: {{allDoneTasks}}

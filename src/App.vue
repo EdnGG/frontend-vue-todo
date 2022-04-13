@@ -94,7 +94,7 @@
 
         <v-row>
           <v-app-bar-title class="ml-4 text-h4">
-            {{ $store.state.appTitle || "ToVuevify's list" }}
+            {{ $store.state.appTitle || "TaskAmazing!" }}
           </v-app-bar-title>
         </v-row>
         <v-row id="row__tools">
