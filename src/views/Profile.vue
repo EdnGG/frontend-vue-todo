@@ -52,35 +52,32 @@
     <v-expand-transition>
       <div v-show="show">
         <v-divider></v-divider>
-
-        <v-card-text
-          
-          class="text-subtitle-2 text-center"
-        >
-          <h2>
+      <!-- Poner elementos en flexbox -->
+        <v-card-text class="text-subtitle-2">
+          <v-col class="pb-5">
+          <v-row class="d-flex justify-space-around">
+          <h2 class="m">
             {{ userDB.google ? 'Google user': 'User from email' }}
           </h2>
-          <br>
           <h2>
            Active: {{userDB.active ? 'True' : 'False' }}
           </h2>
-          <!-- <br>
-           <h2>
-            UserDB: {{userDB }}
-          </h2> -->
-          <br>
-          <h3>
+          </v-row>
+          </v-col>
+          <v-divider></v-divider>
+          <v-col class="pt-5">
+          <v-row class="d-flex justify-space-around">
+          <h2>
             Tasks Completed: {{ allDoneTasks }}
-          </h3>
-          <br>
-          <h3>
+          </h2>
+          <h2>
             Pending Tasks: {{ pendingTasks }}
-          </h3>
-           <br>
-          <h3>
+          </h2>
+          <h2 class="pt-4">
             DueDate Tasks: {{ duedateTasks }}
-          </h3>
-
+          </h2>
+        </v-row>
+        </v-col>
         </v-card-text>
       </div>
     </v-expand-transition>
