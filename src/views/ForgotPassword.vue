@@ -14,24 +14,9 @@
           >
           </v-text-field>
 
-
-          <!-- <v-text-field
-            v-model="user.pass"
-            :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required, rules.min]"
-            name="input-10-2"
-            label="Password"
-            hint="At least 8 characters"
-            required
-          ></v-text-field> -->
-
           <div class="d-flex align-end flex-column" style="margin-top: -5px">
             <router-link :to="{ name: 'Login' }"> Back to login </router-link>
           </div>
-
-          <!-- <div class="d-flex align-end flex-column" style="margin-top: -20px">
-            <v-btn icon href="/"> Back </v-btn>
-          </div> -->
 
           <v-container justify="center" class="d-flex justify-center my-12">
             <v-btn
@@ -108,14 +93,14 @@ export default {
         console.log("peticion PUT/forgot-password");
         console.log("email: " + this.user.email);
         this.axios
-          .put("/forgot-password", { email : this.user.email})
+          .put("/forgot-password", { email: this.user.email })
           .then((res) => {
             this.$store.commit(
               "showSnackbar",
               `Please check your email: ${this.user.email} and follow the instructions`
             );
             // this.$router.push({ name: "Login" });
-            console.log('res.data: ', res.data)
+            console.log("res.data: ", res.data);
           })
           .catch((e) => {
             console.log("error", e);

@@ -107,11 +107,11 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    reserve() {
-      this.loading = true;
+    // reserve() {
+    //   this.loading = true;
 
-      setTimeout(() => (this.loading = false), 2000);
-    },
+    //   setTimeout(() => (this.loading = false), 2000);
+    // },
     submit(id) {
       let productPriceId = "";
       this.prices.find((el) => {
@@ -120,7 +120,9 @@ export default {
         }
       });
       // You will be redirected to Stripe's secure checkout page
-      Stripe(process.env.VUE_APP_KEY_STRIPE_PUBLIC_KEY_PRODUCTION).redirectToCheckout({
+      Stripe(
+        process.env.VUE_APP_KEY_STRIPE_PUBLIC_KEY_PRODUCTION
+      ).redirectToCheckout({
         lineItems: [{ price: productPriceId, quantity: 1 }],
         // mode: "subscription",
         mode: "payment",
