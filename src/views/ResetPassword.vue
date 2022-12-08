@@ -100,7 +100,7 @@ export default {
       if (this.validate) {
         // Cleaning token for URL
         const resetLink = this.$route.params.resetLink.replace(/["_"]+/g, ".");
-        console.log("ResetLink from frontend: ", resetLink);
+        // console.log("ResetLink from frontend: ", resetLink);
         this.axios
           .put(`/reset-password/${this.$route.params.resetLink}`, {
             pass: this.user.pass,
